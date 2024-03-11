@@ -176,7 +176,7 @@ fn writeFunctions(
 
         //--- body ------------------------------
         if (isPointer(func.returnType)) {
-            try file.writeAll(try allocPrint(allocator, "return @ptrCast({s},\n", .{func.returnType}));
+            try file.writeAll(try allocPrint(allocator, "return @ptrCast(\n", .{}));
         } else if (isPrimitiveOrPointer(func.returnType)) {
             try file.writeAll("return ");
         } else if (!returnTypeIsVoid) {
@@ -186,9 +186,9 @@ fn writeFunctions(
 
         if (!isPrimitiveOrPointer(func.returnType)) {
             if (bindings.containsStruct(stripType(func.returnType))) {
-                try file.writeAll(try allocPrint(allocator, "@ptrCast([*c]raylib.{s}, &out),\n", .{func.returnType}));
+                try file.writeAll(try allocPrint(allocator, "@ptrCast(&out),\n", .{}));
             } else if (!returnTypeIsVoid) {
-                try file.writeAll(try allocPrint(allocator, "@ptrCast([*c]{s}, &out),\n", .{func.returnType}));
+                try file.writeAll(try allocPrint(allocator, "@ptrCast(&out),\n", .{}));
             }
         }
 
@@ -196,18 +196,18 @@ fn writeFunctions(
             if (isFunctionPointer(param.typ)) {
                 try file.writeAll(try allocPrint(allocator, "@ptrCast({s}),\n", .{param.name}));
             } else if (bindings.containsStruct(stripType(param.typ)) and isPointer(param.typ)) {
-                try file.writeAll(try allocPrint(allocator, "@intToPtr([*c]raylib.{s}, @ptrToInt({s})),\n", .{ stripType(param.typ), param.name }));
+                try file.writeAll(try allocPrint(allocator, "@ptrFromInt(@intFromPtr({s})),\n", .{ param.name }));
             } else if (bindings.containsEnum(param.typ)) {
-                try file.writeAll(try allocPrint(allocator, "@enumToInt({s}),\n", .{param.name}));
+                try file.writeAll(try allocPrint(allocator, "@intFromEnum({s}),\n", .{param.name}));
             } else if (bindings.containsStruct(stripType(param.typ))) {
-                try file.writeAll(try allocPrint(allocator, "@intToPtr([*c]raylib.{s}, @ptrToInt(&{s})),\n", .{ stripType(param.typ), param.name }));
+                try file.writeAll(try allocPrint(allocator, "@ptrFromInt(@intFromPtr(&{s})),\n", .{ param.name }));
             } else if (isPointer(param.typ)) {
                 if (std.mem.endsWith(u8, param.typ, "anyopaque")) {
                     try file.writeAll(try allocPrint(allocator, "{s},\n", .{param.name}));
                 } else if (isConst(param.typ)) {
-                    try file.writeAll(try allocPrint(allocator, "@intToPtr([*c]const {s}, @ptrToInt({s})),\n", .{ stripType(param.typ), param.name }));
+                    try file.writeAll(try allocPrint(allocator, "@ptrFromInt(@intFromPtr({s})),\n", .{ param.name }));
                 } else {
-                    try file.writeAll(try allocPrint(allocator, "@ptrCast([*c]{s}, {s}),\n", .{ stripType(param.typ), param.name }));
+                    try file.writeAll(try allocPrint(allocator, "@ptrCast({s}),\n", .{ param.name }));
                 }
             } else {
                 try file.writeAll(try allocPrint(allocator, "{s},\n", .{param.name}));

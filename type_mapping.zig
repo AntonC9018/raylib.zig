@@ -34,6 +34,7 @@ pub const Intermediate = struct {
 
         const bindingJson = try json.parseFromSliceLeaky(Intermediate, allocator, jsonData, .{
             .ignore_unknown_fields = true,
+            .duplicate_field_behavior = .use_last,
         });
 
         for (bindingJson.enums) |t| {
