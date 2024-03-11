@@ -708,15 +708,15 @@ pub fn SetConfigFlags(
 
 /// Load file data as byte array (read)
 pub fn LoadFileData(fileName: [*:0]const u8) ![]const u8 {
-    var bytesRead: u32 = undefined;
+    var bytesRead: i32 = undefined;
     const data = raylib.LoadFileData(
         @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-        @as([*c]c_int, @ptrCast(&bytesRead)),
+        @as([*c]c_uint, @ptrCast(&bytesRead)),
     );
 
     if (data == null) return error.FileNotFound;
 
-    return data[0..bytesRead];
+    return data[0 .. @intCast(bytesRead)];
 }
 
 /// Unload file data allocated by LoadFileData()
@@ -738,7 +738,7 @@ pub fn SetTraceLogCallback(
 /// Generate image font atlas using chars info
 pub fn GenImageFontAtlas(
     chars: [*]const GlyphInfo,
-    recs: [*]const [*]const Rectangle,
+    recs: [*]const ?[*]const Rectangle,
     glyphCount: i32,
     fontSize: i32,
     padding: i32,
@@ -746,9 +746,9 @@ pub fn GenImageFontAtlas(
 ) Image {
     var out: Image = undefined;
     mGenImageFontAtlas(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]raylib.GlyphInfo, @ptrCast(chars)),
-        @as([*c][*c]raylib.Rectangle, @ptrCast(recs)),
+        @as([*c]raylib.Image, @constCast(@ptrCast(&out))),
+        @as([*c]raylib.GlyphInfo, @constCast(@ptrCast(chars))),
+        @as([*c][*c]raylib.Rectangle, @constCast(@ptrCast(recs))),
         glyphCount,
         fontSize,
         padding,
@@ -1522,8 +1522,8 @@ pub fn UnloadVrStereoConfig(
 
 /// Load shader from files and bind default locations
 pub fn LoadShader(
-    vsFileName: [*:0]const u8,
-    fsFileName: [*:0]const u8,
+    vsFileName: ?[*:0]const u8,
+    fsFileName: ?[*:0]const u8,
 ) Shader {
     var out: Shader = undefined;
     raylib.mLoadShader(
@@ -4816,11 +4816,11 @@ pub fn UpdateTextureRec(
 /// Set texture scaling filter mode
 pub fn SetTextureFilter(
     texture: Texture2D,
-    filter: i32,
+    filter: TextureFilter,
 ) void {
     raylib.mSetTextureFilter(
         @ptrFromInt(@intFromPtr(&texture)),
-        filter,
+        @intFromEnum(filter),
     );
 }
 
@@ -5634,9 +5634,9 @@ pub fn LoadFontData(
     fileData: [*:0]const u8,
     dataSize: i32,
     fontSize: i32,
-    fontChars: [*]i32,
+    fontChars: ?[*]i32,
     glyphCount: i32,
-    typ: i32,
+    typ: FontType,
 ) [*]GlyphInfo {
     return @ptrCast(
         raylib.mLoadFontData(
@@ -5645,7 +5645,7 @@ pub fn LoadFontData(
             fontSize,
             @ptrCast(fontChars),
             glyphCount,
-            typ,
+            @intFromEnum(typ),
         ),
     );
 }
