@@ -91,7 +91,7 @@ fn linkThisLibrary(b: *std.Build, target: std.Target.Query, optimize: std.builti
     lib.addIncludePath(.{ .cwd_relative = cwd });
     lib.addIncludePath(.{ .cwd_relative = dir_raylib });
     lib.linkLibC();
-    lib.addCSourceFile(.{ .file = .{ .cwd_relative = cwd ++ sep ++ "marshal" ++ sep ++ "marshal.c" }, .flags = &.{} });
+    lib.addCSourceFile(.{ .file = .{ .cwd_relative = cwd ++ sep ++ "marshal.c" }, .flags = &.{} });
     std.log.info("include '{s}' to {s}", .{ dir_raylib, lib.name });
     std.log.info("include '{s}' to {s}", .{ cwd, lib.name });
     return lib;
