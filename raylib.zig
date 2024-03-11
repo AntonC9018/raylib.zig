@@ -9,7 +9,7 @@ const raylib = @cImport({
     @cDefine("RAYMATH_IMPLEMENTATION", {});
     @cInclude("raymath.h");
 
-    @cInclude("marshal.h");
+    @cInclude("/home/anton/coding/thesis-png/raylib/marshal.h");
 });
 
 //--- structs -------------------------------------------------------------------------------------
@@ -1007,7 +1007,7 @@ pub fn InitWindow(
     raylib.mInitWindow(
         width,
         height,
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(title))),
+        @ptrFromInt(@intFromPtr(title)),
     );
 }
 
@@ -1113,7 +1113,7 @@ pub fn SetWindowIcon(
     image: Image,
 ) void {
     raylib.mSetWindowIcon(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrFromInt(@intFromPtr(&image)),
     );
 }
 
@@ -1123,7 +1123,7 @@ pub fn SetWindowIcons(
     count: i32,
 ) void {
     raylib.mSetWindowIcons(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(images))),
+        @ptrFromInt(@intFromPtr(images)),
         count,
     );
 }
@@ -1133,7 +1133,7 @@ pub fn SetWindowTitle(
     title: [*:0]const u8,
 ) void {
     raylib.mSetWindowTitle(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(title))),
+        @ptrFromInt(@intFromPtr(title)),
     );
 }
 
@@ -1240,7 +1240,7 @@ pub fn GetMonitorPosition(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetMonitorPosition(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
         monitor,
     );
     return out;
@@ -1295,7 +1295,7 @@ pub fn GetMonitorRefreshRate(
 pub fn GetWindowPosition() Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetWindowPosition(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -1304,7 +1304,7 @@ pub fn GetWindowPosition() Vector2 {
 pub fn GetWindowScaleDPI() Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetWindowScaleDPI(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -1313,11 +1313,10 @@ pub fn GetWindowScaleDPI() Vector2 {
 pub fn GetMonitorName(
     monitor: i32,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetMonitorName(
+    return @ptrCast(
+        raylib.mGetMonitorName(
             monitor,
-        )),
+        ),
     );
 }
 
@@ -1326,15 +1325,14 @@ pub fn SetClipboardText(
     text: [*:0]const u8,
 ) void {
     raylib.mSetClipboardText(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
     );
 }
 
 /// Get clipboard text content
 pub fn GetClipboardText() [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetClipboardText()),
+    return @ptrCast(
+        raylib.mGetClipboardText(),
     );
 }
 
@@ -1383,7 +1381,7 @@ pub fn ClearBackground(
     color: Color,
 ) void {
     raylib.mClearBackground(
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -1402,7 +1400,7 @@ pub fn BeginMode2D(
     camera: Camera2D,
 ) void {
     raylib.mBeginMode2D(
-        @as([*c]raylib.Camera2D, @ptrFromInt(@intFromPtr(&camera))),
+        @ptrFromInt(@intFromPtr(&camera)),
     );
 }
 
@@ -1416,7 +1414,7 @@ pub fn BeginMode3D(
     camera: Camera3D,
 ) void {
     raylib.mBeginMode3D(
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
+        @ptrFromInt(@intFromPtr(&camera)),
     );
 }
 
@@ -1430,7 +1428,7 @@ pub fn BeginTextureMode(
     target: RenderTexture2D,
 ) void {
     raylib.mBeginTextureMode(
-        @as([*c]raylib.RenderTexture2D, @ptrFromInt(@intFromPtr(&target))),
+        @ptrFromInt(@intFromPtr(&target)),
     );
 }
 
@@ -1444,7 +1442,7 @@ pub fn BeginShaderMode(
     shader: Shader,
 ) void {
     raylib.mBeginShaderMode(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
+        @ptrFromInt(@intFromPtr(&shader)),
     );
 }
 
@@ -1492,7 +1490,7 @@ pub fn BeginVrStereoMode(
     config: VrStereoConfig,
 ) void {
     raylib.mBeginVrStereoMode(
-        @as([*c]raylib.VrStereoConfig, @ptrFromInt(@intFromPtr(&config))),
+        @ptrFromInt(@intFromPtr(&config)),
     );
 }
 
@@ -1507,8 +1505,8 @@ pub fn LoadVrStereoConfig(
 ) VrStereoConfig {
     var out: VrStereoConfig = undefined;
     raylib.mLoadVrStereoConfig(
-        @as([*c]raylib.VrStereoConfig, @ptrCast(&out)),
-        @as([*c]raylib.VrDeviceInfo, @ptrFromInt(@intFromPtr(&device))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&device)),
     );
     return out;
 }
@@ -1518,7 +1516,7 @@ pub fn UnloadVrStereoConfig(
     config: VrStereoConfig,
 ) void {
     raylib.mUnloadVrStereoConfig(
-        @as([*c]raylib.VrStereoConfig, @ptrFromInt(@intFromPtr(&config))),
+        @ptrFromInt(@intFromPtr(&config)),
     );
 }
 
@@ -1529,9 +1527,9 @@ pub fn LoadShader(
 ) Shader {
     var out: Shader = undefined;
     raylib.mLoadShader(
-        @as([*c]raylib.Shader, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(vsFileName))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fsFileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(vsFileName)),
+        @ptrFromInt(@intFromPtr(fsFileName)),
     );
     return out;
 }
@@ -1543,9 +1541,9 @@ pub fn LoadShaderFromMemory(
 ) Shader {
     var out: Shader = undefined;
     raylib.mLoadShaderFromMemory(
-        @as([*c]raylib.Shader, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(vsCode))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fsCode))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(vsCode)),
+        @ptrFromInt(@intFromPtr(fsCode)),
     );
     return out;
 }
@@ -1555,7 +1553,7 @@ pub fn IsShaderReady(
     shader: Shader,
 ) bool {
     return raylib.mIsShaderReady(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
+        @ptrFromInt(@intFromPtr(&shader)),
     );
 }
 
@@ -1565,8 +1563,8 @@ pub fn GetShaderLocation(
     uniformName: [*:0]const u8,
 ) i32 {
     return raylib.mGetShaderLocation(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(uniformName))),
+        @ptrFromInt(@intFromPtr(&shader)),
+        @ptrFromInt(@intFromPtr(uniformName)),
     );
 }
 
@@ -1576,8 +1574,8 @@ pub fn GetShaderLocationAttrib(
     attribName: [*:0]const u8,
 ) i32 {
     return raylib.mGetShaderLocationAttrib(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(attribName))),
+        @ptrFromInt(@intFromPtr(&shader)),
+        @ptrFromInt(@intFromPtr(attribName)),
     );
 }
 
@@ -1589,7 +1587,7 @@ pub fn SetShaderValue(
     uniformType: ShaderUniformDataType,
 ) void {
     raylib.mSetShaderValue(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
+        @ptrFromInt(@intFromPtr(&shader)),
         locIndex,
         value,
         @intFromEnum(uniformType),
@@ -1605,7 +1603,7 @@ pub fn SetShaderValueV(
     count: i32,
 ) void {
     raylib.mSetShaderValueV(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
+        @ptrFromInt(@intFromPtr(&shader)),
         locIndex,
         value,
         uniformType,
@@ -1620,9 +1618,9 @@ pub fn SetShaderValueMatrix(
     mat: Matrix,
 ) void {
     raylib.mSetShaderValueMatrix(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
+        @ptrFromInt(@intFromPtr(&shader)),
         locIndex,
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
 }
 
@@ -1633,9 +1631,9 @@ pub fn SetShaderValueTexture(
     texture: Texture2D,
 ) void {
     raylib.mSetShaderValueTexture(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
+        @ptrFromInt(@intFromPtr(&shader)),
         locIndex,
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
     );
 }
 
@@ -1644,44 +1642,38 @@ pub fn UnloadShader(
     shader: Shader,
 ) void {
     raylib.mUnloadShader(
-        @as([*c]raylib.Shader, @ptrFromInt(@intFromPtr(&shader))),
+        @ptrFromInt(@intFromPtr(&shader)),
     );
 }
 
-/// Get a ray trace from mouse position
-pub fn GetMouseRay(
-    mousePosition: Vector2,
+/// Get a ray trace from screen position (i.e mouse)
+pub fn GetScreenToWorldRay(
+    position: Vector2,
     camera: Camera3D,
 ) Ray {
     var out: Ray = undefined;
-    raylib.mGetMouseRay(
-        @as([*c]raylib.Ray, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&mousePosition))),
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
+    raylib.mGetScreenToWorldRay(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&camera)),
     );
     return out;
 }
 
-/// Get camera transform matrix (view matrix)
-pub fn GetCameraMatrix(
+/// Get a ray trace from screen position (i.e mouse) in a viewport
+pub fn GetScreenToWorldRayEx(
+    position: Vector2,
     camera: Camera3D,
-) Matrix {
-    var out: Matrix = undefined;
-    raylib.mGetCameraMatrix(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
-    );
-    return out;
-}
-
-/// Get camera 2d transform matrix
-pub fn GetCameraMatrix2D(
-    camera: Camera2D,
-) Matrix {
-    var out: Matrix = undefined;
-    raylib.mGetCameraMatrix2D(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Camera2D, @ptrFromInt(@intFromPtr(&camera))),
+    width: f32,
+    height: f32,
+) Ray {
+    var out: Ray = undefined;
+    raylib.mGetScreenToWorldRayEx(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&camera)),
+        width,
+        height,
     );
     return out;
 }
@@ -1693,23 +1685,9 @@ pub fn GetWorldToScreen(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetWorldToScreen(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
-    );
-    return out;
-}
-
-/// Get the world space position for a 2d camera screen space position
-pub fn GetScreenToWorld2D(
-    position: Vector2,
-    camera: Camera2D,
-) Vector2 {
-    var out: Vector2 = undefined;
-    raylib.mGetScreenToWorld2D(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Camera2D, @ptrFromInt(@intFromPtr(&camera))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&camera)),
     );
     return out;
 }
@@ -1723,9 +1701,9 @@ pub fn GetWorldToScreenEx(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetWorldToScreenEx(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&camera)),
         width,
         height,
     );
@@ -1739,9 +1717,47 @@ pub fn GetWorldToScreen2D(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetWorldToScreen2D(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Camera2D, @ptrFromInt(@intFromPtr(&camera))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&camera)),
+    );
+    return out;
+}
+
+/// Get the world space position for a 2d camera screen space position
+pub fn GetScreenToWorld2D(
+    position: Vector2,
+    camera: Camera2D,
+) Vector2 {
+    var out: Vector2 = undefined;
+    raylib.mGetScreenToWorld2D(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&camera)),
+    );
+    return out;
+}
+
+/// Get camera transform matrix (view matrix)
+pub fn GetCameraMatrix(
+    camera: Camera3D,
+) Matrix {
+    var out: Matrix = undefined;
+    raylib.mGetCameraMatrix(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&camera)),
+    );
+    return out;
+}
+
+/// Get camera 2d transform matrix
+pub fn GetCameraMatrix2D(
+    camera: Camera2D,
+) Matrix {
+    var out: Matrix = undefined;
+    raylib.mGetCameraMatrix2D(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&camera)),
     );
     return out;
 }
@@ -1815,13 +1831,12 @@ pub fn LoadRandomSequence(
     min: i32,
     max: i32,
 ) ?[*]i32 {
-    return @as(
-        ?[*]i32,
-        @ptrCast(raylib.mLoadRandomSequence(
+    return @ptrCast(
+        raylib.mLoadRandomSequence(
             count,
             min,
             max,
-        )),
+        ),
     );
 }
 
@@ -1830,7 +1845,7 @@ pub fn UnloadRandomSequence(
     sequence: ?[*]i32,
 ) void {
     raylib.mUnloadRandomSequence(
-        @as([*c]i32, @ptrCast(sequence)),
+        @ptrCast(sequence),
     );
 }
 
@@ -1839,7 +1854,7 @@ pub fn TakeScreenshot(
     fileName: [*:0]const u8,
 ) void {
     raylib.mTakeScreenshot(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -1848,7 +1863,7 @@ pub fn OpenURL(
     url: [*:0]const u8,
 ) void {
     raylib.mOpenURL(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(url))),
+        @ptrFromInt(@intFromPtr(url)),
     );
 }
 
@@ -1904,7 +1919,7 @@ pub fn SaveFileData(
     dataSize: i32,
 ) bool {
     return raylib.mSaveFileData(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(fileName)),
         data,
         dataSize,
     );
@@ -1917,9 +1932,9 @@ pub fn ExportDataAsCode(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportDataAsCode(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(data))),
+        @ptrFromInt(@intFromPtr(data)),
         dataSize,
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -1927,11 +1942,10 @@ pub fn ExportDataAsCode(
 pub fn LoadFileText(
     fileName: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mLoadFileText(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-        )),
+    return @ptrCast(
+        raylib.mLoadFileText(
+            @ptrFromInt(@intFromPtr(fileName)),
+        ),
     );
 }
 
@@ -1940,7 +1954,7 @@ pub fn UnloadFileText(
     text: ?[*]u8,
 ) void {
     raylib.mUnloadFileText(
-        @as([*c]u8, @ptrCast(text)),
+        @ptrCast(text),
     );
 }
 
@@ -1950,8 +1964,8 @@ pub fn SaveFileText(
     text: ?[*]u8,
 ) bool {
     return raylib.mSaveFileText(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-        @as([*c]u8, @ptrCast(text)),
+        @ptrFromInt(@intFromPtr(fileName)),
+        @ptrCast(text),
     );
 }
 
@@ -1960,7 +1974,7 @@ pub fn FileExists(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mFileExists(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -1969,7 +1983,7 @@ pub fn DirectoryExists(
     dirPath: [*:0]const u8,
 ) bool {
     return raylib.mDirectoryExists(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(dirPath))),
+        @ptrFromInt(@intFromPtr(dirPath)),
     );
 }
 
@@ -1979,8 +1993,8 @@ pub fn IsFileExtension(
     ext: [*:0]const u8,
 ) bool {
     return raylib.mIsFileExtension(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(ext))),
+        @ptrFromInt(@intFromPtr(fileName)),
+        @ptrFromInt(@intFromPtr(ext)),
     );
 }
 
@@ -1989,7 +2003,7 @@ pub fn GetFileLength(
     fileName: [*:0]const u8,
 ) i32 {
     return raylib.mGetFileLength(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -1997,11 +2011,10 @@ pub fn GetFileLength(
 pub fn GetFileExtension(
     fileName: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetFileExtension(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-        )),
+    return @ptrCast(
+        raylib.mGetFileExtension(
+            @ptrFromInt(@intFromPtr(fileName)),
+        ),
     );
 }
 
@@ -2009,11 +2022,10 @@ pub fn GetFileExtension(
 pub fn GetFileName(
     filePath: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetFileName(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(filePath))),
-        )),
+    return @ptrCast(
+        raylib.mGetFileName(
+            @ptrFromInt(@intFromPtr(filePath)),
+        ),
     );
 }
 
@@ -2021,11 +2033,10 @@ pub fn GetFileName(
 pub fn GetFileNameWithoutExt(
     filePath: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetFileNameWithoutExt(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(filePath))),
-        )),
+    return @ptrCast(
+        raylib.mGetFileNameWithoutExt(
+            @ptrFromInt(@intFromPtr(filePath)),
+        ),
     );
 }
 
@@ -2033,11 +2044,10 @@ pub fn GetFileNameWithoutExt(
 pub fn GetDirectoryPath(
     filePath: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetDirectoryPath(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(filePath))),
-        )),
+    return @ptrCast(
+        raylib.mGetDirectoryPath(
+            @ptrFromInt(@intFromPtr(filePath)),
+        ),
     );
 }
 
@@ -2045,27 +2055,24 @@ pub fn GetDirectoryPath(
 pub fn GetPrevDirectoryPath(
     dirPath: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetPrevDirectoryPath(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(dirPath))),
-        )),
+    return @ptrCast(
+        raylib.mGetPrevDirectoryPath(
+            @ptrFromInt(@intFromPtr(dirPath)),
+        ),
     );
 }
 
 /// Get current working directory (uses static string)
 pub fn GetWorkingDirectory() [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetWorkingDirectory()),
+    return @ptrCast(
+        raylib.mGetWorkingDirectory(),
     );
 }
 
 /// Get the directory of the running application (uses static string)
 pub fn GetApplicationDirectory() [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetApplicationDirectory()),
+    return @ptrCast(
+        raylib.mGetApplicationDirectory(),
     );
 }
 
@@ -2074,7 +2081,7 @@ pub fn ChangeDirectory(
     dir: [*:0]const u8,
 ) bool {
     return raylib.mChangeDirectory(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(dir))),
+        @ptrFromInt(@intFromPtr(dir)),
     );
 }
 
@@ -2083,7 +2090,7 @@ pub fn IsPathFile(
     path: [*:0]const u8,
 ) bool {
     return raylib.mIsPathFile(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(path))),
+        @ptrFromInt(@intFromPtr(path)),
     );
 }
 
@@ -2093,8 +2100,8 @@ pub fn LoadDirectoryFiles(
 ) FilePathList {
     var out: FilePathList = undefined;
     raylib.mLoadDirectoryFiles(
-        @as([*c]raylib.FilePathList, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(dirPath))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(dirPath)),
     );
     return out;
 }
@@ -2107,9 +2114,9 @@ pub fn LoadDirectoryFilesEx(
 ) FilePathList {
     var out: FilePathList = undefined;
     raylib.mLoadDirectoryFilesEx(
-        @as([*c]raylib.FilePathList, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(basePath))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(filter))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(basePath)),
+        @ptrFromInt(@intFromPtr(filter)),
         scanSubdirs,
     );
     return out;
@@ -2120,7 +2127,7 @@ pub fn UnloadDirectoryFiles(
     files: FilePathList,
 ) void {
     raylib.mUnloadDirectoryFiles(
-        @as([*c]raylib.FilePathList, @ptrFromInt(@intFromPtr(&files))),
+        @ptrFromInt(@intFromPtr(&files)),
     );
 }
 
@@ -2133,7 +2140,7 @@ pub fn IsFileDropped() bool {
 pub fn LoadDroppedFiles() FilePathList {
     var out: FilePathList = undefined;
     raylib.mLoadDroppedFiles(
-        @as([*c]raylib.FilePathList, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2143,7 +2150,7 @@ pub fn UnloadDroppedFiles(
     files: FilePathList,
 ) void {
     raylib.mUnloadDroppedFiles(
-        @as([*c]raylib.FilePathList, @ptrFromInt(@intFromPtr(&files))),
+        @ptrFromInt(@intFromPtr(&files)),
     );
 }
 
@@ -2152,7 +2159,7 @@ pub fn GetFileModTime(
     fileName: [*:0]const u8,
 ) i64 {
     return raylib.mGetFileModTime(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -2162,13 +2169,12 @@ pub fn CompressData(
     dataSize: i32,
     compDataSize: ?[*]i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mCompressData(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(data))),
+    return @ptrCast(
+        raylib.mCompressData(
+            @ptrFromInt(@intFromPtr(data)),
             dataSize,
-            @as([*c]i32, @ptrCast(compDataSize)),
-        )),
+            @ptrCast(compDataSize),
+        ),
     );
 }
 
@@ -2178,13 +2184,12 @@ pub fn DecompressData(
     compDataSize: i32,
     dataSize: ?[*]i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mDecompressData(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(compData))),
+    return @ptrCast(
+        raylib.mDecompressData(
+            @ptrFromInt(@intFromPtr(compData)),
             compDataSize,
-            @as([*c]i32, @ptrCast(dataSize)),
-        )),
+            @ptrCast(dataSize),
+        ),
     );
 }
 
@@ -2194,13 +2199,12 @@ pub fn EncodeDataBase64(
     dataSize: i32,
     outputSize: ?[*]i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mEncodeDataBase64(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(data))),
+    return @ptrCast(
+        raylib.mEncodeDataBase64(
+            @ptrFromInt(@intFromPtr(data)),
             dataSize,
-            @as([*c]i32, @ptrCast(outputSize)),
-        )),
+            @ptrCast(outputSize),
+        ),
     );
 }
 
@@ -2209,12 +2213,11 @@ pub fn DecodeDataBase64(
     data: [*:0]const u8,
     outputSize: ?[*]i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mDecodeDataBase64(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(data))),
-            @as([*c]i32, @ptrCast(outputSize)),
-        )),
+    return @ptrCast(
+        raylib.mDecodeDataBase64(
+            @ptrFromInt(@intFromPtr(data)),
+            @ptrCast(outputSize),
+        ),
     );
 }
 
@@ -2224,8 +2227,8 @@ pub fn LoadAutomationEventList(
 ) AutomationEventList {
     var out: AutomationEventList = undefined;
     raylib.mLoadAutomationEventList(
-        @as([*c]raylib.AutomationEventList, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -2235,7 +2238,7 @@ pub fn UnloadAutomationEventList(
     list: AutomationEventList,
 ) void {
     raylib.mUnloadAutomationEventList(
-        @as([*c]raylib.AutomationEventList, @ptrFromInt(@intFromPtr(&list))),
+        @ptrFromInt(@intFromPtr(&list)),
     );
 }
 
@@ -2245,8 +2248,8 @@ pub fn ExportAutomationEventList(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportAutomationEventList(
-        @as([*c]raylib.AutomationEventList, @ptrFromInt(@intFromPtr(&list))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&list)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -2255,7 +2258,7 @@ pub fn SetAutomationEventList(
     list: ?[*]AutomationEventList,
 ) void {
     raylib.mSetAutomationEventList(
-        @as([*c]raylib.AutomationEventList, @ptrFromInt(@intFromPtr(list))),
+        @ptrFromInt(@intFromPtr(list)),
     );
 }
 
@@ -2283,7 +2286,7 @@ pub fn PlayAutomationEvent(
     event: AutomationEvent,
 ) void {
     raylib.mPlayAutomationEvent(
-        @as([*c]raylib.AutomationEvent, @ptrFromInt(@intFromPtr(&event))),
+        @ptrFromInt(@intFromPtr(&event)),
     );
 }
 
@@ -2364,11 +2367,10 @@ pub fn IsGamepadAvailable(
 pub fn GetGamepadName(
     gamepad: i32,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mGetGamepadName(
+    return @ptrCast(
+        raylib.mGetGamepadName(
             gamepad,
-        )),
+        ),
     );
 }
 
@@ -2441,7 +2443,20 @@ pub fn SetGamepadMappings(
     mappings: [*:0]const u8,
 ) i32 {
     return raylib.mSetGamepadMappings(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(mappings))),
+        @ptrFromInt(@intFromPtr(mappings)),
+    );
+}
+
+/// Set gamepad vibration for both motors
+pub fn SetGamepadVibration(
+    gamepad: i32,
+    leftMotor: f32,
+    rightMotor: f32,
+) void {
+    raylib.mSetGamepadVibration(
+        gamepad,
+        leftMotor,
+        rightMotor,
     );
 }
 
@@ -2495,7 +2510,7 @@ pub fn GetMouseY() i32 {
 pub fn GetMousePosition() Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetMousePosition(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2504,7 +2519,7 @@ pub fn GetMousePosition() Vector2 {
 pub fn GetMouseDelta() Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetMouseDelta(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2551,7 +2566,7 @@ pub fn GetMouseWheelMove() f32 {
 pub fn GetMouseWheelMoveV() Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetMouseWheelMoveV(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2581,7 +2596,7 @@ pub fn GetTouchPosition(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetTouchPosition(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
         index,
     );
     return out;
@@ -2633,7 +2648,7 @@ pub fn GetGestureHoldDuration() f32 {
 pub fn GetGestureDragVector() Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetGestureDragVector(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2647,7 +2662,7 @@ pub fn GetGestureDragAngle() f32 {
 pub fn GetGesturePinchVector() Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetGesturePinchVector(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2663,7 +2678,7 @@ pub fn UpdateCamera(
     mode: CameraMode,
 ) void {
     raylib.mUpdateCamera(
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(camera))),
+        @ptrFromInt(@intFromPtr(camera)),
         @intFromEnum(mode),
     );
 }
@@ -2676,9 +2691,9 @@ pub fn UpdateCameraPro(
     zoom: f32,
 ) void {
     raylib.mUpdateCameraPro(
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(camera))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&movement))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&rotation))),
+        @ptrFromInt(@intFromPtr(camera)),
+        @ptrFromInt(@intFromPtr(&movement)),
+        @ptrFromInt(@intFromPtr(&rotation)),
         zoom,
     );
 }
@@ -2689,8 +2704,8 @@ pub fn SetShapesTexture(
     source: Rectangle,
 ) void {
     raylib.mSetShapesTexture(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&source))),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&source)),
     );
 }
 
@@ -2698,7 +2713,7 @@ pub fn SetShapesTexture(
 pub fn GetShapesTexture() Texture2D {
     var out: Texture2D = undefined;
     raylib.mGetShapesTexture(
-        @as([*c]raylib.Texture2D, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2707,7 +2722,7 @@ pub fn GetShapesTexture() Texture2D {
 pub fn GetShapesTextureRectangle() Rectangle {
     var out: Rectangle = undefined;
     raylib.mGetShapesTextureRectangle(
-        @as([*c]raylib.Rectangle, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -2721,7 +2736,7 @@ pub fn DrawPixel(
     raylib.mDrawPixel(
         posX,
         posY,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2731,8 +2746,8 @@ pub fn DrawPixelV(
     color: Color,
 ) void {
     raylib.mDrawPixelV(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2749,7 +2764,7 @@ pub fn DrawLine(
         startPosY,
         endPosX,
         endPosY,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2760,9 +2775,9 @@ pub fn DrawLineV(
     color: Color,
 ) void {
     raylib.mDrawLineV(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&endPos))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2774,10 +2789,10 @@ pub fn DrawLineEx(
     color: Color,
 ) void {
     raylib.mDrawLineEx(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&endPos))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2788,9 +2803,9 @@ pub fn DrawLineStrip(
     color: Color,
 ) void {
     raylib.mDrawLineStrip(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2802,10 +2817,10 @@ pub fn DrawLineBezier(
     color: Color,
 ) void {
     raylib.mDrawLineBezier(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&endPos))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2820,7 +2835,7 @@ pub fn DrawCircle(
         centerX,
         centerY,
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2834,12 +2849,12 @@ pub fn DrawCircleSector(
     color: Color,
 ) void {
     raylib.mDrawCircleSector(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
         startAngle,
         endAngle,
         segments,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2853,12 +2868,12 @@ pub fn DrawCircleSectorLines(
     color: Color,
 ) void {
     raylib.mDrawCircleSectorLines(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
         startAngle,
         endAngle,
         segments,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2874,8 +2889,8 @@ pub fn DrawCircleGradient(
         centerX,
         centerY,
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color1))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color2))),
+        @ptrFromInt(@intFromPtr(&color1)),
+        @ptrFromInt(@intFromPtr(&color2)),
     );
 }
 
@@ -2886,9 +2901,9 @@ pub fn DrawCircleV(
     color: Color,
 ) void {
     raylib.mDrawCircleV(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2903,7 +2918,7 @@ pub fn DrawCircleLines(
         centerX,
         centerY,
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2914,9 +2929,9 @@ pub fn DrawCircleLinesV(
     color: Color,
 ) void {
     raylib.mDrawCircleLinesV(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2933,7 +2948,7 @@ pub fn DrawEllipse(
         centerY,
         radiusH,
         radiusV,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2950,7 +2965,7 @@ pub fn DrawEllipseLines(
         centerY,
         radiusH,
         radiusV,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2965,13 +2980,13 @@ pub fn DrawRing(
     color: Color,
 ) void {
     raylib.mDrawRing(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         innerRadius,
         outerRadius,
         startAngle,
         endAngle,
         segments,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -2986,13 +3001,13 @@ pub fn DrawRingLines(
     color: Color,
 ) void {
     raylib.mDrawRingLines(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         innerRadius,
         outerRadius,
         startAngle,
         endAngle,
         segments,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3009,7 +3024,7 @@ pub fn DrawRectangle(
         posY,
         width,
         height,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3020,9 +3035,9 @@ pub fn DrawRectangleV(
     color: Color,
 ) void {
     raylib.mDrawRectangleV(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&size))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&size)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3032,8 +3047,8 @@ pub fn DrawRectangleRec(
     color: Color,
 ) void {
     raylib.mDrawRectangleRec(
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&rec)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3045,10 +3060,10 @@ pub fn DrawRectanglePro(
     color: Color,
 ) void {
     raylib.mDrawRectanglePro(
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&origin))),
+        @ptrFromInt(@intFromPtr(&rec)),
+        @ptrFromInt(@intFromPtr(&origin)),
         rotation,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3066,8 +3081,8 @@ pub fn DrawRectangleGradientV(
         posY,
         width,
         height,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color1))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color2))),
+        @ptrFromInt(@intFromPtr(&color1)),
+        @ptrFromInt(@intFromPtr(&color2)),
     );
 }
 
@@ -3085,8 +3100,8 @@ pub fn DrawRectangleGradientH(
         posY,
         width,
         height,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color1))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color2))),
+        @ptrFromInt(@intFromPtr(&color1)),
+        @ptrFromInt(@intFromPtr(&color2)),
     );
 }
 
@@ -3099,11 +3114,11 @@ pub fn DrawRectangleGradientEx(
     col4: Color,
 ) void {
     raylib.mDrawRectangleGradientEx(
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&col1))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&col2))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&col3))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&col4))),
+        @ptrFromInt(@intFromPtr(&rec)),
+        @ptrFromInt(@intFromPtr(&col1)),
+        @ptrFromInt(@intFromPtr(&col2)),
+        @ptrFromInt(@intFromPtr(&col3)),
+        @ptrFromInt(@intFromPtr(&col4)),
     );
 }
 
@@ -3120,7 +3135,7 @@ pub fn DrawRectangleLines(
         posY,
         width,
         height,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3131,9 +3146,9 @@ pub fn DrawRectangleLinesEx(
     color: Color,
 ) void {
     raylib.mDrawRectangleLinesEx(
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrFromInt(@intFromPtr(&rec)),
         lineThick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3145,10 +3160,10 @@ pub fn DrawRectangleRounded(
     color: Color,
 ) void {
     raylib.mDrawRectangleRounded(
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrFromInt(@intFromPtr(&rec)),
         roundness,
         segments,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3161,11 +3176,11 @@ pub fn DrawRectangleRoundedLines(
     color: Color,
 ) void {
     raylib.mDrawRectangleRoundedLines(
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrFromInt(@intFromPtr(&rec)),
         roundness,
         segments,
         lineThick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3177,10 +3192,10 @@ pub fn DrawTriangle(
     color: Color,
 ) void {
     raylib.mDrawTriangle(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v3))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+        @ptrFromInt(@intFromPtr(&v3)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3192,10 +3207,10 @@ pub fn DrawTriangleLines(
     color: Color,
 ) void {
     raylib.mDrawTriangleLines(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v3))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+        @ptrFromInt(@intFromPtr(&v3)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3206,9 +3221,9 @@ pub fn DrawTriangleFan(
     color: Color,
 ) void {
     raylib.mDrawTriangleFan(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3219,9 +3234,9 @@ pub fn DrawTriangleStrip(
     color: Color,
 ) void {
     raylib.mDrawTriangleStrip(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3234,11 +3249,11 @@ pub fn DrawPoly(
     color: Color,
 ) void {
     raylib.mDrawPoly(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         sides,
         radius,
         rotation,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3251,11 +3266,11 @@ pub fn DrawPolyLines(
     color: Color,
 ) void {
     raylib.mDrawPolyLines(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         sides,
         radius,
         rotation,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3269,12 +3284,12 @@ pub fn DrawPolyLinesEx(
     color: Color,
 ) void {
     raylib.mDrawPolyLinesEx(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         sides,
         radius,
         rotation,
         lineThick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3286,10 +3301,10 @@ pub fn DrawSplineLinear(
     color: Color,
 ) void {
     raylib.mDrawSplineLinear(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3301,10 +3316,10 @@ pub fn DrawSplineBasis(
     color: Color,
 ) void {
     raylib.mDrawSplineBasis(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3316,10 +3331,10 @@ pub fn DrawSplineCatmullRom(
     color: Color,
 ) void {
     raylib.mDrawSplineCatmullRom(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3331,10 +3346,10 @@ pub fn DrawSplineBezierQuadratic(
     color: Color,
 ) void {
     raylib.mDrawSplineBezierQuadratic(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3346,10 +3361,10 @@ pub fn DrawSplineBezierCubic(
     color: Color,
 ) void {
     raylib.mDrawSplineBezierCubic(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3361,10 +3376,10 @@ pub fn DrawSplineSegmentLinear(
     color: Color,
 ) void {
     raylib.mDrawSplineSegmentLinear(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p2))),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3378,12 +3393,12 @@ pub fn DrawSplineSegmentBasis(
     color: Color,
 ) void {
     raylib.mDrawSplineSegmentBasis(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p3))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p4))),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
+        @ptrFromInt(@intFromPtr(&p3)),
+        @ptrFromInt(@intFromPtr(&p4)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3397,12 +3412,12 @@ pub fn DrawSplineSegmentCatmullRom(
     color: Color,
 ) void {
     raylib.mDrawSplineSegmentCatmullRom(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p3))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p4))),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
+        @ptrFromInt(@intFromPtr(&p3)),
+        @ptrFromInt(@intFromPtr(&p4)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3415,11 +3430,11 @@ pub fn DrawSplineSegmentBezierQuadratic(
     color: Color,
 ) void {
     raylib.mDrawSplineSegmentBezierQuadratic(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&c2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p3))),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&c2)),
+        @ptrFromInt(@intFromPtr(&p3)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3433,12 +3448,12 @@ pub fn DrawSplineSegmentBezierCubic(
     color: Color,
 ) void {
     raylib.mDrawSplineSegmentBezierCubic(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&c2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&c3))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p4))),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&c2)),
+        @ptrFromInt(@intFromPtr(&c3)),
+        @ptrFromInt(@intFromPtr(&p4)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -3450,9 +3465,9 @@ pub fn GetSplinePointLinear(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetSplinePointLinear(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&endPos))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
         t,
     );
     return out;
@@ -3468,11 +3483,11 @@ pub fn GetSplinePointBasis(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetSplinePointBasis(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p3))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p4))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
+        @ptrFromInt(@intFromPtr(&p3)),
+        @ptrFromInt(@intFromPtr(&p4)),
         t,
     );
     return out;
@@ -3488,11 +3503,11 @@ pub fn GetSplinePointCatmullRom(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetSplinePointCatmullRom(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p3))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p4))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
+        @ptrFromInt(@intFromPtr(&p3)),
+        @ptrFromInt(@intFromPtr(&p4)),
         t,
     );
     return out;
@@ -3507,10 +3522,10 @@ pub fn GetSplinePointBezierQuad(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetSplinePointBezierQuad(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&c2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p3))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&c2)),
+        @ptrFromInt(@intFromPtr(&p3)),
         t,
     );
     return out;
@@ -3526,11 +3541,11 @@ pub fn GetSplinePointBezierCubic(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mGetSplinePointBezierCubic(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&c2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&c3))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p4))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&c2)),
+        @ptrFromInt(@intFromPtr(&c3)),
+        @ptrFromInt(@intFromPtr(&p4)),
         t,
     );
     return out;
@@ -3542,8 +3557,8 @@ pub fn CheckCollisionRecs(
     rec2: Rectangle,
 ) bool {
     return raylib.mCheckCollisionRecs(
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec1))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec2))),
+        @ptrFromInt(@intFromPtr(&rec1)),
+        @ptrFromInt(@intFromPtr(&rec2)),
     );
 }
 
@@ -3555,9 +3570,9 @@ pub fn CheckCollisionCircles(
     radius2: f32,
 ) bool {
     return raylib.mCheckCollisionCircles(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center1))),
+        @ptrFromInt(@intFromPtr(&center1)),
         radius1,
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center2))),
+        @ptrFromInt(@intFromPtr(&center2)),
         radius2,
     );
 }
@@ -3569,9 +3584,9 @@ pub fn CheckCollisionCircleRec(
     rec: Rectangle,
 ) bool {
     return raylib.mCheckCollisionCircleRec(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrFromInt(@intFromPtr(&rec)),
     );
 }
 
@@ -3581,8 +3596,8 @@ pub fn CheckCollisionPointRec(
     rec: Rectangle,
 ) bool {
     return raylib.mCheckCollisionPointRec(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&point))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrFromInt(@intFromPtr(&point)),
+        @ptrFromInt(@intFromPtr(&rec)),
     );
 }
 
@@ -3593,8 +3608,8 @@ pub fn CheckCollisionPointCircle(
     radius: f32,
 ) bool {
     return raylib.mCheckCollisionPointCircle(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&point))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&point)),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
     );
 }
@@ -3607,10 +3622,10 @@ pub fn CheckCollisionPointTriangle(
     p3: Vector2,
 ) bool {
     return raylib.mCheckCollisionPointTriangle(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&point))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p3))),
+        @ptrFromInt(@intFromPtr(&point)),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
+        @ptrFromInt(@intFromPtr(&p3)),
     );
 }
 
@@ -3621,8 +3636,8 @@ pub fn CheckCollisionPointPoly(
     pointCount: i32,
 ) bool {
     return raylib.mCheckCollisionPointPoly(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&point))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(&point)),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
     );
 }
@@ -3636,11 +3651,11 @@ pub fn CheckCollisionLines(
     collisionPoint: ?[*]Vector2,
 ) bool {
     return raylib.mCheckCollisionLines(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&startPos1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&endPos1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&startPos2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&endPos2))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(collisionPoint))),
+        @ptrFromInt(@intFromPtr(&startPos1)),
+        @ptrFromInt(@intFromPtr(&endPos1)),
+        @ptrFromInt(@intFromPtr(&startPos2)),
+        @ptrFromInt(@intFromPtr(&endPos2)),
+        @ptrFromInt(@intFromPtr(collisionPoint)),
     );
 }
 
@@ -3652,9 +3667,9 @@ pub fn CheckCollisionPointLine(
     threshold: i32,
 ) bool {
     return raylib.mCheckCollisionPointLine(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&point))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p2))),
+        @ptrFromInt(@intFromPtr(&point)),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
         threshold,
     );
 }
@@ -3666,9 +3681,9 @@ pub fn GetCollisionRec(
 ) Rectangle {
     var out: Rectangle = undefined;
     raylib.mGetCollisionRec(
-        @as([*c]raylib.Rectangle, @ptrCast(&out)),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec1))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&rec1)),
+        @ptrFromInt(@intFromPtr(&rec2)),
     );
     return out;
 }
@@ -3679,8 +3694,8 @@ pub fn LoadImage(
 ) Image {
     var out: Image = undefined;
     raylib.mLoadImage(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -3695,8 +3710,8 @@ pub fn LoadImageRaw(
 ) Image {
     var out: Image = undefined;
     raylib.mLoadImageRaw(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
         width,
         height,
         format,
@@ -3713,8 +3728,8 @@ pub fn LoadImageSvg(
 ) Image {
     var out: Image = undefined;
     raylib.mLoadImageSvg(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileNameOrString))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileNameOrString)),
         width,
         height,
     );
@@ -3728,9 +3743,9 @@ pub fn LoadImageAnim(
 ) Image {
     var out: Image = undefined;
     raylib.mLoadImageAnim(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-        @as([*c]i32, @ptrCast(frames)),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
+        @ptrCast(frames),
     );
     return out;
 }
@@ -3744,11 +3759,11 @@ pub fn LoadImageAnimFromMemory(
 ) Image {
     var out: Image = undefined;
     raylib.mLoadImageAnimFromMemory(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileType))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileData))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileType)),
+        @ptrFromInt(@intFromPtr(fileData)),
         dataSize,
-        @as([*c]i32, @ptrCast(frames)),
+        @ptrCast(frames),
     );
     return out;
 }
@@ -3761,9 +3776,9 @@ pub fn LoadImageFromMemory(
 ) Image {
     var out: Image = undefined;
     raylib.mLoadImageFromMemory(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileType))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileData))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileType)),
+        @ptrFromInt(@intFromPtr(fileData)),
         dataSize,
     );
     return out;
@@ -3775,8 +3790,8 @@ pub fn LoadImageFromTexture(
 ) Image {
     var out: Image = undefined;
     raylib.mLoadImageFromTexture(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&texture)),
     );
     return out;
 }
@@ -3785,7 +3800,7 @@ pub fn LoadImageFromTexture(
 pub fn LoadImageFromScreen() Image {
     var out: Image = undefined;
     raylib.mLoadImageFromScreen(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -3795,7 +3810,7 @@ pub fn IsImageReady(
     image: Image,
 ) bool {
     return raylib.mIsImageReady(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrFromInt(@intFromPtr(&image)),
     );
 }
 
@@ -3804,7 +3819,7 @@ pub fn UnloadImage(
     image: Image,
 ) void {
     raylib.mUnloadImage(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrFromInt(@intFromPtr(&image)),
     );
 }
 
@@ -3814,8 +3829,8 @@ pub fn ExportImage(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportImage(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&image)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -3825,13 +3840,12 @@ pub fn ExportImageToMemory(
     fileType: [*:0]const u8,
     fileSize: ?[*]i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mExportImageToMemory(
-            @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(fileType))),
-            @as([*c]i32, @ptrCast(fileSize)),
-        )),
+    return @ptrCast(
+        raylib.mExportImageToMemory(
+            @ptrFromInt(@intFromPtr(&image)),
+            @ptrFromInt(@intFromPtr(fileType)),
+            @ptrCast(fileSize),
+        ),
     );
 }
 
@@ -3841,8 +3855,8 @@ pub fn ExportImageAsCode(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportImageAsCode(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&image)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -3854,10 +3868,10 @@ pub fn GenImageColor(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageColor(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
     return out;
 }
@@ -3872,12 +3886,12 @@ pub fn GenImageGradientLinear(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageGradientLinear(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         direction,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&start))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&end))),
+        @ptrFromInt(@intFromPtr(&start)),
+        @ptrFromInt(@intFromPtr(&end)),
     );
     return out;
 }
@@ -3892,12 +3906,12 @@ pub fn GenImageGradientRadial(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageGradientRadial(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         density,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&inner))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&outer))),
+        @ptrFromInt(@intFromPtr(&inner)),
+        @ptrFromInt(@intFromPtr(&outer)),
     );
     return out;
 }
@@ -3912,12 +3926,12 @@ pub fn GenImageGradientSquare(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageGradientSquare(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         density,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&inner))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&outer))),
+        @ptrFromInt(@intFromPtr(&inner)),
+        @ptrFromInt(@intFromPtr(&outer)),
     );
     return out;
 }
@@ -3933,13 +3947,13 @@ pub fn GenImageChecked(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageChecked(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         checksX,
         checksY,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&col1))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&col2))),
+        @ptrFromInt(@intFromPtr(&col1)),
+        @ptrFromInt(@intFromPtr(&col2)),
     );
     return out;
 }
@@ -3952,7 +3966,7 @@ pub fn GenImageWhiteNoise(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageWhiteNoise(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         factor,
@@ -3970,7 +3984,7 @@ pub fn GenImagePerlinNoise(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImagePerlinNoise(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         offsetX,
@@ -3988,7 +4002,7 @@ pub fn GenImageCellular(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageCellular(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         tileSize,
@@ -4004,10 +4018,10 @@ pub fn GenImageText(
 ) Image {
     var out: Image = undefined;
     raylib.mGenImageText(
-        @as([*c]raylib.Image, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
     );
     return out;
 }
@@ -4018,8 +4032,8 @@ pub fn ImageCopy(
 ) Image {
     var out: Image = undefined;
     raylib.mImageCopy(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&image)),
     );
     return out;
 }
@@ -4031,9 +4045,9 @@ pub fn ImageFromImage(
 ) Image {
     var out: Image = undefined;
     raylib.mImageFromImage(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&image)),
+        @ptrFromInt(@intFromPtr(&rec)),
     );
     return out;
 }
@@ -4046,10 +4060,10 @@ pub fn ImageText(
 ) Image {
     var out: Image = undefined;
     raylib.mImageText(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(text)),
         fontSize,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
     return out;
 }
@@ -4064,12 +4078,12 @@ pub fn ImageTextEx(
 ) Image {
     var out: Image = undefined;
     raylib.mImageTextEx(
-        @as([*c]raylib.Image, @ptrCast(&out)),
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&font)),
+        @ptrFromInt(@intFromPtr(text)),
         fontSize,
         spacing,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
     return out;
 }
@@ -4080,7 +4094,7 @@ pub fn ImageFormat(
     newFormat: i32,
 ) void {
     raylib.mImageFormat(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         newFormat,
     );
 }
@@ -4091,8 +4105,8 @@ pub fn ImageToPOT(
     fill: Color,
 ) void {
     raylib.mImageToPOT(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&fill))),
+        @ptrFromInt(@intFromPtr(image)),
+        @ptrFromInt(@intFromPtr(&fill)),
     );
 }
 
@@ -4102,8 +4116,8 @@ pub fn ImageCrop(
     crop: Rectangle,
 ) void {
     raylib.mImageCrop(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&crop))),
+        @ptrFromInt(@intFromPtr(image)),
+        @ptrFromInt(@intFromPtr(&crop)),
     );
 }
 
@@ -4113,7 +4127,7 @@ pub fn ImageAlphaCrop(
     threshold: f32,
 ) void {
     raylib.mImageAlphaCrop(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         threshold,
     );
 }
@@ -4125,8 +4139,8 @@ pub fn ImageAlphaClear(
     threshold: f32,
 ) void {
     raylib.mImageAlphaClear(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(image)),
+        @ptrFromInt(@intFromPtr(&color)),
         threshold,
     );
 }
@@ -4137,8 +4151,8 @@ pub fn ImageAlphaMask(
     alphaMask: Image,
 ) void {
     raylib.mImageAlphaMask(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&alphaMask))),
+        @ptrFromInt(@intFromPtr(image)),
+        @ptrFromInt(@intFromPtr(&alphaMask)),
     );
 }
 
@@ -4147,7 +4161,7 @@ pub fn ImageAlphaPremultiply(
     image: *Image,
 ) void {
     raylib.mImageAlphaPremultiply(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4157,7 +4171,7 @@ pub fn ImageBlurGaussian(
     blurSize: i32,
 ) void {
     raylib.mImageBlurGaussian(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         blurSize,
     );
 }
@@ -4169,8 +4183,8 @@ pub fn ImageKernelConvolution(
     kernelSize: i32,
 ) void {
     raylib.mImageKernelConvolution(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
-        @as([*c]f32, @ptrCast(kernel)),
+        @ptrFromInt(@intFromPtr(image)),
+        @ptrCast(kernel),
         kernelSize,
     );
 }
@@ -4182,7 +4196,7 @@ pub fn ImageResize(
     newHeight: i32,
 ) void {
     raylib.mImageResize(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         newWidth,
         newHeight,
     );
@@ -4195,7 +4209,7 @@ pub fn ImageResizeNN(
     newHeight: i32,
 ) void {
     raylib.mImageResizeNN(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         newWidth,
         newHeight,
     );
@@ -4211,12 +4225,12 @@ pub fn ImageResizeCanvas(
     fill: Color,
 ) void {
     raylib.mImageResizeCanvas(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         newWidth,
         newHeight,
         offsetX,
         offsetY,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&fill))),
+        @ptrFromInt(@intFromPtr(&fill)),
     );
 }
 
@@ -4225,7 +4239,7 @@ pub fn ImageMipmaps(
     image: *Image,
 ) void {
     raylib.mImageMipmaps(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4238,7 +4252,7 @@ pub fn ImageDither(
     aBpp: i32,
 ) void {
     raylib.mImageDither(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         rBpp,
         gBpp,
         bBpp,
@@ -4251,7 +4265,7 @@ pub fn ImageFlipVertical(
     image: *Image,
 ) void {
     raylib.mImageFlipVertical(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4260,7 +4274,7 @@ pub fn ImageFlipHorizontal(
     image: *Image,
 ) void {
     raylib.mImageFlipHorizontal(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4270,7 +4284,7 @@ pub fn ImageRotate(
     degrees: i32,
 ) void {
     raylib.mImageRotate(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         degrees,
     );
 }
@@ -4280,7 +4294,7 @@ pub fn ImageRotateCW(
     image: *Image,
 ) void {
     raylib.mImageRotateCW(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4289,7 +4303,7 @@ pub fn ImageRotateCCW(
     image: *Image,
 ) void {
     raylib.mImageRotateCCW(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4299,8 +4313,8 @@ pub fn ImageColorTint(
     color: Color,
 ) void {
     raylib.mImageColorTint(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(image)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4309,7 +4323,7 @@ pub fn ImageColorInvert(
     image: *Image,
 ) void {
     raylib.mImageColorInvert(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4318,7 +4332,7 @@ pub fn ImageColorGrayscale(
     image: *Image,
 ) void {
     raylib.mImageColorGrayscale(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
     );
 }
 
@@ -4328,7 +4342,7 @@ pub fn ImageColorContrast(
     contrast: f32,
 ) void {
     raylib.mImageColorContrast(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         contrast,
     );
 }
@@ -4339,7 +4353,7 @@ pub fn ImageColorBrightness(
     brightness: i32,
 ) void {
     raylib.mImageColorBrightness(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
+        @ptrFromInt(@intFromPtr(image)),
         brightness,
     );
 }
@@ -4351,9 +4365,9 @@ pub fn ImageColorReplace(
     replace: Color,
 ) void {
     raylib.mImageColorReplace(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(image))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&replace))),
+        @ptrFromInt(@intFromPtr(image)),
+        @ptrFromInt(@intFromPtr(&color)),
+        @ptrFromInt(@intFromPtr(&replace)),
     );
 }
 
@@ -4361,11 +4375,10 @@ pub fn ImageColorReplace(
 pub fn LoadImageColors(
     image: Image,
 ) ?[*]Color {
-    return @as(
-        ?[*]Color,
-        @ptrCast(raylib.mLoadImageColors(
-            @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
-        )),
+    return @ptrCast(
+        raylib.mLoadImageColors(
+            @ptrFromInt(@intFromPtr(&image)),
+        ),
     );
 }
 
@@ -4375,13 +4388,12 @@ pub fn LoadImagePalette(
     maxPaletteSize: i32,
     colorCount: ?[*]i32,
 ) ?[*]Color {
-    return @as(
-        ?[*]Color,
-        @ptrCast(raylib.mLoadImagePalette(
-            @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+    return @ptrCast(
+        raylib.mLoadImagePalette(
+            @ptrFromInt(@intFromPtr(&image)),
             maxPaletteSize,
-            @as([*c]i32, @ptrCast(colorCount)),
-        )),
+            @ptrCast(colorCount),
+        ),
     );
 }
 
@@ -4390,7 +4402,7 @@ pub fn UnloadImageColors(
     colors: ?[*]Color,
 ) void {
     raylib.mUnloadImageColors(
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(colors))),
+        @ptrFromInt(@intFromPtr(colors)),
     );
 }
 
@@ -4399,7 +4411,7 @@ pub fn UnloadImagePalette(
     colors: ?[*]Color,
 ) void {
     raylib.mUnloadImagePalette(
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(colors))),
+        @ptrFromInt(@intFromPtr(colors)),
     );
 }
 
@@ -4410,8 +4422,8 @@ pub fn GetImageAlphaBorder(
 ) Rectangle {
     var out: Rectangle = undefined;
     raylib.mGetImageAlphaBorder(
-        @as([*c]raylib.Rectangle, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&image)),
         threshold,
     );
     return out;
@@ -4425,8 +4437,8 @@ pub fn GetImageColor(
 ) Color {
     var out: Color = undefined;
     raylib.mGetImageColor(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&image)),
         x,
         y,
     );
@@ -4439,8 +4451,8 @@ pub fn ImageClearBackground(
     color: Color,
 ) void {
     raylib.mImageClearBackground(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4452,10 +4464,10 @@ pub fn ImageDrawPixel(
     color: Color,
 ) void {
     raylib.mImageDrawPixel(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
+        @ptrFromInt(@intFromPtr(dst)),
         posX,
         posY,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4466,9 +4478,9 @@ pub fn ImageDrawPixelV(
     color: Color,
 ) void {
     raylib.mImageDrawPixelV(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4482,12 +4494,12 @@ pub fn ImageDrawLine(
     color: Color,
 ) void {
     raylib.mImageDrawLine(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
+        @ptrFromInt(@intFromPtr(dst)),
         startPosX,
         startPosY,
         endPosX,
         endPosY,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4499,10 +4511,10 @@ pub fn ImageDrawLineV(
     color: Color,
 ) void {
     raylib.mImageDrawLineV(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&start))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&end))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&start)),
+        @ptrFromInt(@intFromPtr(&end)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4515,11 +4527,11 @@ pub fn ImageDrawCircle(
     color: Color,
 ) void {
     raylib.mImageDrawCircle(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
+        @ptrFromInt(@intFromPtr(dst)),
         centerX,
         centerY,
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4531,10 +4543,10 @@ pub fn ImageDrawCircleV(
     color: Color,
 ) void {
     raylib.mImageDrawCircleV(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4547,11 +4559,11 @@ pub fn ImageDrawCircleLines(
     color: Color,
 ) void {
     raylib.mImageDrawCircleLines(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
+        @ptrFromInt(@intFromPtr(dst)),
         centerX,
         centerY,
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4563,10 +4575,10 @@ pub fn ImageDrawCircleLinesV(
     color: Color,
 ) void {
     raylib.mImageDrawCircleLinesV(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4580,12 +4592,12 @@ pub fn ImageDrawRectangle(
     color: Color,
 ) void {
     raylib.mImageDrawRectangle(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
+        @ptrFromInt(@intFromPtr(dst)),
         posX,
         posY,
         width,
         height,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4597,10 +4609,10 @@ pub fn ImageDrawRectangleV(
     color: Color,
 ) void {
     raylib.mImageDrawRectangleV(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&size))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&size)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4611,9 +4623,9 @@ pub fn ImageDrawRectangleRec(
     color: Color,
 ) void {
     raylib.mImageDrawRectangleRec(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&rec)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4625,10 +4637,10 @@ pub fn ImageDrawRectangleLines(
     color: Color,
 ) void {
     raylib.mImageDrawRectangleLines(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&rec)),
         thick,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4641,11 +4653,11 @@ pub fn ImageDraw(
     tint: Color,
 ) void {
     raylib.mImageDraw(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&src))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&srcRec))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&dstRec))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&src)),
+        @ptrFromInt(@intFromPtr(&srcRec)),
+        @ptrFromInt(@intFromPtr(&dstRec)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -4659,12 +4671,12 @@ pub fn ImageDrawText(
     color: Color,
 ) void {
     raylib.mImageDrawText(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(text)),
         posX,
         posY,
         fontSize,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4679,13 +4691,13 @@ pub fn ImageDrawTextEx(
     tint: Color,
 ) void {
     raylib.mImageDrawTextEx(
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(dst))),
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(dst)),
+        @ptrFromInt(@intFromPtr(&font)),
+        @ptrFromInt(@intFromPtr(text)),
+        @ptrFromInt(@intFromPtr(&position)),
         fontSize,
         spacing,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -4695,8 +4707,8 @@ pub fn LoadTexture(
 ) Texture2D {
     var out: Texture2D = undefined;
     raylib.mLoadTexture(
-        @as([*c]raylib.Texture2D, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -4707,8 +4719,8 @@ pub fn LoadTextureFromImage(
 ) Texture2D {
     var out: Texture2D = undefined;
     raylib.mLoadTextureFromImage(
-        @as([*c]raylib.Texture2D, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&image)),
     );
     return out;
 }
@@ -4720,8 +4732,8 @@ pub fn LoadTextureCubemap(
 ) Texture2D {
     var out: Texture2D = undefined;
     raylib.mLoadTextureCubemap(
-        @as([*c]raylib.Texture2D, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&image)),
         layout,
     );
     return out;
@@ -4734,7 +4746,7 @@ pub fn LoadRenderTexture(
 ) RenderTexture2D {
     var out: RenderTexture2D = undefined;
     raylib.mLoadRenderTexture(
-        @as([*c]raylib.RenderTexture2D, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
     );
@@ -4746,7 +4758,7 @@ pub fn IsTextureReady(
     texture: Texture2D,
 ) bool {
     return raylib.mIsTextureReady(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
     );
 }
 
@@ -4755,7 +4767,7 @@ pub fn UnloadTexture(
     texture: Texture2D,
 ) void {
     raylib.mUnloadTexture(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
     );
 }
 
@@ -4764,7 +4776,7 @@ pub fn IsRenderTextureReady(
     target: RenderTexture2D,
 ) bool {
     return raylib.mIsRenderTextureReady(
-        @as([*c]raylib.RenderTexture2D, @ptrFromInt(@intFromPtr(&target))),
+        @ptrFromInt(@intFromPtr(&target)),
     );
 }
 
@@ -4773,7 +4785,7 @@ pub fn UnloadRenderTexture(
     target: RenderTexture2D,
 ) void {
     raylib.mUnloadRenderTexture(
-        @as([*c]raylib.RenderTexture2D, @ptrFromInt(@intFromPtr(&target))),
+        @ptrFromInt(@intFromPtr(&target)),
     );
 }
 
@@ -4783,7 +4795,7 @@ pub fn UpdateTexture(
     pixels: *const anyopaque,
 ) void {
     raylib.mUpdateTexture(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
         pixels,
     );
 }
@@ -4795,8 +4807,8 @@ pub fn UpdateTextureRec(
     pixels: *const anyopaque,
 ) void {
     raylib.mUpdateTextureRec(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&rec))),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&rec)),
         pixels,
     );
 }
@@ -4807,7 +4819,7 @@ pub fn SetTextureFilter(
     filter: i32,
 ) void {
     raylib.mSetTextureFilter(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
         filter,
     );
 }
@@ -4818,7 +4830,7 @@ pub fn SetTextureWrap(
     wrap: i32,
 ) void {
     raylib.mSetTextureWrap(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
         wrap,
     );
 }
@@ -4831,10 +4843,10 @@ pub fn DrawTexture(
     tint: Color,
 ) void {
     raylib.mDrawTexture(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
         posX,
         posY,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -4845,9 +4857,9 @@ pub fn DrawTextureV(
     tint: Color,
 ) void {
     raylib.mDrawTextureV(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -4860,11 +4872,11 @@ pub fn DrawTextureEx(
     tint: Color,
 ) void {
     raylib.mDrawTextureEx(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&position)),
         rotation,
         scale,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -4876,10 +4888,10 @@ pub fn DrawTextureRec(
     tint: Color,
 ) void {
     raylib.mDrawTextureRec(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&source))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&source)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -4893,12 +4905,12 @@ pub fn DrawTexturePro(
     tint: Color,
 ) void {
     raylib.mDrawTexturePro(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&source))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&dest))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&origin))),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&source)),
+        @ptrFromInt(@intFromPtr(&dest)),
+        @ptrFromInt(@intFromPtr(&origin)),
         rotation,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -4912,12 +4924,23 @@ pub fn DrawTextureNPatch(
     tint: Color,
 ) void {
     raylib.mDrawTextureNPatch(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.NPatchInfo, @ptrFromInt(@intFromPtr(&nPatchInfo))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&dest))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&origin))),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&nPatchInfo)),
+        @ptrFromInt(@intFromPtr(&dest)),
+        @ptrFromInt(@intFromPtr(&origin)),
         rotation,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
+    );
+}
+
+/// Check if two colors are equal
+pub fn ColorIsEqual(
+    col1: Color,
+    col2: Color,
+) bool {
+    return raylib.mColorIsEqual(
+        @ptrFromInt(@intFromPtr(&col1)),
+        @ptrFromInt(@intFromPtr(&col2)),
     );
 }
 
@@ -4928,19 +4951,19 @@ pub fn Fade(
 ) Color {
     var out: Color = undefined;
     raylib.mFade(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&color)),
         alpha,
     );
     return out;
 }
 
-/// Get hexadecimal value for a Color
+/// Get hexadecimal value for a Color (0xRRGGBBAA)
 pub fn ColorToInt(
     color: Color,
 ) i32 {
     return raylib.mColorToInt(
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -4950,8 +4973,8 @@ pub fn ColorNormalize(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mColorNormalize(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&color)),
     );
     return out;
 }
@@ -4962,8 +4985,8 @@ pub fn ColorFromNormalized(
 ) Color {
     var out: Color = undefined;
     raylib.mColorFromNormalized(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&normalized))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&normalized)),
     );
     return out;
 }
@@ -4974,8 +4997,8 @@ pub fn ColorToHSV(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mColorToHSV(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&color)),
     );
     return out;
 }
@@ -4988,7 +5011,7 @@ pub fn ColorFromHSV(
 ) Color {
     var out: Color = undefined;
     raylib.mColorFromHSV(
-        @as([*c]raylib.Color, @ptrCast(&out)),
+        @ptrCast(&out),
         hue,
         saturation,
         value,
@@ -5003,9 +5026,9 @@ pub fn ColorTint(
 ) Color {
     var out: Color = undefined;
     raylib.mColorTint(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&color)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
     return out;
 }
@@ -5017,8 +5040,8 @@ pub fn ColorBrightness(
 ) Color {
     var out: Color = undefined;
     raylib.mColorBrightness(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&color)),
         factor,
     );
     return out;
@@ -5031,8 +5054,8 @@ pub fn ColorContrast(
 ) Color {
     var out: Color = undefined;
     raylib.mColorContrast(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&color)),
         contrast,
     );
     return out;
@@ -5045,8 +5068,8 @@ pub fn ColorAlpha(
 ) Color {
     var out: Color = undefined;
     raylib.mColorAlpha(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&color)),
         alpha,
     );
     return out;
@@ -5060,10 +5083,10 @@ pub fn ColorAlphaBlend(
 ) Color {
     var out: Color = undefined;
     raylib.mColorAlphaBlend(
-        @as([*c]raylib.Color, @ptrCast(&out)),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&dst))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&src))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&dst)),
+        @ptrFromInt(@intFromPtr(&src)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
     return out;
 }
@@ -5074,7 +5097,7 @@ pub fn GetColor(
 ) Color {
     var out: Color = undefined;
     raylib.mGetColor(
-        @as([*c]raylib.Color, @ptrCast(&out)),
+        @ptrCast(&out),
         hexValue,
     );
     return out;
@@ -5087,7 +5110,7 @@ pub fn GetPixelColor(
 ) Color {
     var out: Color = undefined;
     raylib.mGetPixelColor(
-        @as([*c]raylib.Color, @ptrCast(&out)),
+        @ptrCast(&out),
         srcPtr,
         format,
     );
@@ -5102,7 +5125,7 @@ pub fn SetPixelColor(
 ) void {
     raylib.mSetPixelColor(
         dstPtr,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
         format,
     );
 }
@@ -5124,7 +5147,7 @@ pub fn GetPixelDataSize(
 pub fn GetFontDefault() Font {
     var out: Font = undefined;
     raylib.mGetFontDefault(
-        @as([*c]raylib.Font, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -5135,8 +5158,8 @@ pub fn LoadFont(
 ) Font {
     var out: Font = undefined;
     raylib.mLoadFont(
-        @as([*c]raylib.Font, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -5150,10 +5173,10 @@ pub fn LoadFontEx(
 ) Font {
     var out: Font = undefined;
     raylib.mLoadFontEx(
-        @as([*c]raylib.Font, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
         fontSize,
-        @as([*c]i32, @ptrCast(codepoints)),
+        @ptrCast(codepoints),
         codepointCount,
     );
     return out;
@@ -5167,9 +5190,9 @@ pub fn LoadFontFromImage(
 ) Font {
     var out: Font = undefined;
     raylib.mLoadFontFromImage(
-        @as([*c]raylib.Font, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&image))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&key))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&image)),
+        @ptrFromInt(@intFromPtr(&key)),
         firstChar,
     );
     return out;
@@ -5186,12 +5209,12 @@ pub fn LoadFontFromMemory(
 ) Font {
     var out: Font = undefined;
     raylib.mLoadFontFromMemory(
-        @as([*c]raylib.Font, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileType))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileData))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileType)),
+        @ptrFromInt(@intFromPtr(fileData)),
         dataSize,
         fontSize,
-        @as([*c]i32, @ptrCast(codepoints)),
+        @ptrCast(codepoints),
         codepointCount,
     );
     return out;
@@ -5202,7 +5225,7 @@ pub fn IsFontReady(
     font: Font,
 ) bool {
     return raylib.mIsFontReady(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
+        @ptrFromInt(@intFromPtr(&font)),
     );
 }
 
@@ -5212,7 +5235,7 @@ pub fn UnloadFontData(
     glyphCount: i32,
 ) void {
     raylib.mUnloadFontData(
-        @as([*c]raylib.GlyphInfo, @ptrFromInt(@intFromPtr(glyphs))),
+        @ptrFromInt(@intFromPtr(glyphs)),
         glyphCount,
     );
 }
@@ -5222,7 +5245,7 @@ pub fn UnloadFont(
     font: Font,
 ) void {
     raylib.mUnloadFont(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
+        @ptrFromInt(@intFromPtr(&font)),
     );
 }
 
@@ -5232,8 +5255,8 @@ pub fn ExportFontAsCode(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportFontAsCode(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&font)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -5257,11 +5280,11 @@ pub fn DrawText(
     color: Color,
 ) void {
     raylib.mDrawText(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
         posX,
         posY,
         fontSize,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5275,12 +5298,12 @@ pub fn DrawTextEx(
     tint: Color,
 ) void {
     raylib.mDrawTextEx(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&font)),
+        @ptrFromInt(@intFromPtr(text)),
+        @ptrFromInt(@intFromPtr(&position)),
         fontSize,
         spacing,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -5296,14 +5319,14 @@ pub fn DrawTextPro(
     tint: Color,
 ) void {
     raylib.mDrawTextPro(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&origin))),
+        @ptrFromInt(@intFromPtr(&font)),
+        @ptrFromInt(@intFromPtr(text)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&origin)),
         rotation,
         fontSize,
         spacing,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -5316,11 +5339,11 @@ pub fn DrawTextCodepoint(
     tint: Color,
 ) void {
     raylib.mDrawTextCodepoint(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
+        @ptrFromInt(@intFromPtr(&font)),
         codepoint,
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&position)),
         fontSize,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -5335,13 +5358,13 @@ pub fn DrawTextCodepoints(
     tint: Color,
 ) void {
     raylib.mDrawTextCodepoints(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
-        @as([*c]const i32, @ptrFromInt(@intFromPtr(codepoints))),
+        @ptrFromInt(@intFromPtr(&font)),
+        @ptrFromInt(@intFromPtr(codepoints)),
         codepointCount,
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&position)),
         fontSize,
         spacing,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -5360,7 +5383,7 @@ pub fn MeasureText(
     fontSize: i32,
 ) i32 {
     return raylib.mMeasureText(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
         fontSize,
     );
 }
@@ -5374,9 +5397,9 @@ pub fn MeasureTextEx(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mMeasureTextEx(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&font)),
+        @ptrFromInt(@intFromPtr(text)),
         fontSize,
         spacing,
     );
@@ -5389,7 +5412,7 @@ pub fn GetGlyphIndex(
     codepoint: i32,
 ) i32 {
     return raylib.mGetGlyphIndex(
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
+        @ptrFromInt(@intFromPtr(&font)),
         codepoint,
     );
 }
@@ -5401,8 +5424,8 @@ pub fn GetGlyphInfo(
 ) GlyphInfo {
     var out: GlyphInfo = undefined;
     raylib.mGetGlyphInfo(
-        @as([*c]raylib.GlyphInfo, @ptrCast(&out)),
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&font)),
         codepoint,
     );
     return out;
@@ -5415,8 +5438,8 @@ pub fn GetGlyphAtlasRec(
 ) Rectangle {
     var out: Rectangle = undefined;
     raylib.mGetGlyphAtlasRec(
-        @as([*c]raylib.Rectangle, @ptrCast(&out)),
-        @as([*c]raylib.Font, @ptrFromInt(@intFromPtr(&font))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&font)),
         codepoint,
     );
     return out;
@@ -5427,12 +5450,11 @@ pub fn LoadUTF8(
     codepoints: ?[*]const i32,
     length: i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mLoadUTF8(
-            @as([*c]const i32, @ptrFromInt(@intFromPtr(codepoints))),
+    return @ptrCast(
+        raylib.mLoadUTF8(
+            @ptrFromInt(@intFromPtr(codepoints)),
             length,
-        )),
+        ),
     );
 }
 
@@ -5441,7 +5463,7 @@ pub fn UnloadUTF8(
     text: ?[*]u8,
 ) void {
     raylib.mUnloadUTF8(
-        @as([*c]u8, @ptrCast(text)),
+        @ptrCast(text),
     );
 }
 
@@ -5450,12 +5472,11 @@ pub fn LoadCodepoints(
     text: [*:0]const u8,
     count: ?[*]i32,
 ) ?[*]i32 {
-    return @as(
-        ?[*]i32,
-        @ptrCast(raylib.mLoadCodepoints(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-            @as([*c]i32, @ptrCast(count)),
-        )),
+    return @ptrCast(
+        raylib.mLoadCodepoints(
+            @ptrFromInt(@intFromPtr(text)),
+            @ptrCast(count),
+        ),
     );
 }
 
@@ -5464,7 +5485,7 @@ pub fn UnloadCodepoints(
     codepoints: ?[*]i32,
 ) void {
     raylib.mUnloadCodepoints(
-        @as([*c]i32, @ptrCast(codepoints)),
+        @ptrCast(codepoints),
     );
 }
 
@@ -5473,7 +5494,7 @@ pub fn GetCodepointCount(
     text: [*:0]const u8,
 ) i32 {
     return raylib.mGetCodepointCount(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
     );
 }
 
@@ -5483,8 +5504,8 @@ pub fn GetCodepoint(
     codepointSize: ?[*]i32,
 ) i32 {
     return raylib.mGetCodepoint(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        @as([*c]i32, @ptrCast(codepointSize)),
+        @ptrFromInt(@intFromPtr(text)),
+        @ptrCast(codepointSize),
     );
 }
 
@@ -5494,8 +5515,8 @@ pub fn GetCodepointNext(
     codepointSize: ?[*]i32,
 ) i32 {
     return raylib.mGetCodepointNext(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        @as([*c]i32, @ptrCast(codepointSize)),
+        @ptrFromInt(@intFromPtr(text)),
+        @ptrCast(codepointSize),
     );
 }
 
@@ -5505,8 +5526,8 @@ pub fn GetCodepointPrevious(
     codepointSize: ?[*]i32,
 ) i32 {
     return raylib.mGetCodepointPrevious(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        @as([*c]i32, @ptrCast(codepointSize)),
+        @ptrFromInt(@intFromPtr(text)),
+        @ptrCast(codepointSize),
     );
 }
 
@@ -5515,12 +5536,11 @@ pub fn CodepointToUTF8(
     codepoint: i32,
     utf8Size: ?[*]i32,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mCodepointToUTF8(
+    return @ptrCast(
+        raylib.mCodepointToUTF8(
             codepoint,
-            @as([*c]i32, @ptrCast(utf8Size)),
-        )),
+            @ptrCast(utf8Size),
+        ),
     );
 }
 
@@ -5530,8 +5550,8 @@ pub fn TextCopy(
     src: [*:0]const u8,
 ) i32 {
     return raylib.mTextCopy(
-        @as([*c]u8, @ptrCast(dst)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(src))),
+        @ptrCast(dst),
+        @ptrFromInt(@intFromPtr(src)),
     );
 }
 
@@ -5541,8 +5561,8 @@ pub fn TextIsEqual(
     text2: [*:0]const u8,
 ) bool {
     return raylib.mTextIsEqual(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text1))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text2))),
+        @ptrFromInt(@intFromPtr(text1)),
+        @ptrFromInt(@intFromPtr(text2)),
     );
 }
 
@@ -5551,7 +5571,7 @@ pub fn TextLength(
     text: [*:0]const u8,
 ) u32 {
     return raylib.mTextLength(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
     );
 }
 
@@ -5560,7 +5580,7 @@ pub fn GenTextureMipmaps(
     texture: *Texture2D,
 ) void {
     raylib.mGenTextureMipmaps(
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(texture))),
+        @ptrFromInt(@intFromPtr(texture)),
     );
 }
 
@@ -5570,13 +5590,12 @@ pub fn TextSubtext(
     position: i32,
     length: i32,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mTextSubtext(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+    return @ptrCast(
+        raylib.mTextSubtext(
+            @ptrFromInt(@intFromPtr(text)),
             position,
             length,
-        )),
+        ),
     );
 }
 
@@ -5586,13 +5605,12 @@ pub fn TextReplace(
     replace: [*:0]const u8,
     by: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mTextReplace(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(replace))),
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(by))),
-        )),
+    return @ptrCast(
+        raylib.mTextReplace(
+            @ptrFromInt(@intFromPtr(text)),
+            @ptrFromInt(@intFromPtr(replace)),
+            @ptrFromInt(@intFromPtr(by)),
+        ),
     );
 }
 
@@ -5602,13 +5620,12 @@ pub fn TextInsert(
     insert: [*:0]const u8,
     position: i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mTextInsert(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(insert))),
+    return @ptrCast(
+        raylib.mTextInsert(
+            @ptrFromInt(@intFromPtr(text)),
+            @ptrFromInt(@intFromPtr(insert)),
             position,
-        )),
+        ),
     );
 }
 
@@ -5621,16 +5638,15 @@ pub fn LoadFontData(
     glyphCount: i32,
     typ: i32,
 ) [*]GlyphInfo {
-    return @as(
-        [*]GlyphInfo,
-        @ptrCast(raylib.mLoadFontData(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(fileData))),
+    return @ptrCast(
+        raylib.mLoadFontData(
+            @ptrFromInt(@intFromPtr(fileData)),
             dataSize,
             fontSize,
-            @as([*c]i32, @ptrCast(fontChars)),
+            @ptrCast(fontChars),
             glyphCount,
             typ,
-        )),
+        ),
     );
 }
 
@@ -5659,8 +5675,8 @@ pub fn TextFindIndex(
     find: [*:0]const u8,
 ) i32 {
     return raylib.mTextFindIndex(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(find))),
+        @ptrFromInt(@intFromPtr(text)),
+        @ptrFromInt(@intFromPtr(find)),
     );
 }
 
@@ -5668,11 +5684,10 @@ pub fn TextFindIndex(
 pub fn TextToUpper(
     text: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mTextToUpper(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        )),
+    return @ptrCast(
+        raylib.mTextToUpper(
+            @ptrFromInt(@intFromPtr(text)),
+        ),
     );
 }
 
@@ -5680,11 +5695,10 @@ pub fn TextToUpper(
 pub fn TextToLower(
     text: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mTextToLower(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        )),
+    return @ptrCast(
+        raylib.mTextToLower(
+            @ptrFromInt(@intFromPtr(text)),
+        ),
     );
 }
 
@@ -5692,11 +5706,10 @@ pub fn TextToLower(
 pub fn TextToPascal(
     text: [*:0]const u8,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mTextToPascal(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
-        )),
+    return @ptrCast(
+        raylib.mTextToPascal(
+            @ptrFromInt(@intFromPtr(text)),
+        ),
     );
 }
 
@@ -5705,7 +5718,7 @@ pub fn TextToInteger(
     text: [*:0]const u8,
 ) i32 {
     return raylib.mTextToInteger(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
     );
 }
 
@@ -5714,7 +5727,7 @@ pub fn TextToFloat(
     text: [*:0]const u8,
 ) f32 {
     return raylib.mTextToFloat(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(text))),
+        @ptrFromInt(@intFromPtr(text)),
     );
 }
 
@@ -5725,9 +5738,9 @@ pub fn DrawLine3D(
     color: Color,
 ) void {
     raylib.mDrawLine3D(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&endPos))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5737,8 +5750,8 @@ pub fn DrawPoint3D(
     color: Color,
 ) void {
     raylib.mDrawPoint3D(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5751,11 +5764,11 @@ pub fn DrawCircle3D(
     color: Color,
 ) void {
     raylib.mDrawCircle3D(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&rotationAxis))),
+        @ptrFromInt(@intFromPtr(&rotationAxis)),
         rotationAngle,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5767,10 +5780,10 @@ pub fn DrawTriangle3D(
     color: Color,
 ) void {
     raylib.mDrawTriangle3D(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v3))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+        @ptrFromInt(@intFromPtr(&v3)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5781,9 +5794,9 @@ pub fn DrawTriangleStrip3D(
     color: Color,
 ) void {
     raylib.mDrawTriangleStrip3D(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(points))),
+        @ptrFromInt(@intFromPtr(points)),
         pointCount,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5796,11 +5809,11 @@ pub fn DrawCube(
     color: Color,
 ) void {
     raylib.mDrawCube(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&position)),
         width,
         height,
         length,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5811,9 +5824,9 @@ pub fn DrawCubeV(
     color: Color,
 ) void {
     raylib.mDrawCubeV(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&size))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&size)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5826,11 +5839,11 @@ pub fn DrawCubeWires(
     color: Color,
 ) void {
     raylib.mDrawCubeWires(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&position)),
         width,
         height,
         length,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5841,9 +5854,9 @@ pub fn DrawCubeWiresV(
     color: Color,
 ) void {
     raylib.mDrawCubeWiresV(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&size))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&size)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5854,9 +5867,9 @@ pub fn DrawSphere(
     color: Color,
 ) void {
     raylib.mDrawSphere(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&centerPos))),
+        @ptrFromInt(@intFromPtr(&centerPos)),
         radius,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5869,11 +5882,11 @@ pub fn DrawSphereEx(
     color: Color,
 ) void {
     raylib.mDrawSphereEx(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&centerPos))),
+        @ptrFromInt(@intFromPtr(&centerPos)),
         radius,
         rings,
         slices,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5886,11 +5899,11 @@ pub fn DrawSphereWires(
     color: Color,
 ) void {
     raylib.mDrawSphereWires(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&centerPos))),
+        @ptrFromInt(@intFromPtr(&centerPos)),
         radius,
         rings,
         slices,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5904,12 +5917,12 @@ pub fn DrawCylinder(
     color: Color,
 ) void {
     raylib.mDrawCylinder(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&position)),
         radiusTop,
         radiusBottom,
         height,
         slices,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5923,12 +5936,12 @@ pub fn DrawCylinderEx(
     color: Color,
 ) void {
     raylib.mDrawCylinderEx(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&endPos))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
         startRadius,
         endRadius,
         sides,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5942,12 +5955,12 @@ pub fn DrawCylinderWires(
     color: Color,
 ) void {
     raylib.mDrawCylinderWires(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&position)),
         radiusTop,
         radiusBottom,
         height,
         slices,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5961,12 +5974,12 @@ pub fn DrawCylinderWiresEx(
     color: Color,
 ) void {
     raylib.mDrawCylinderWiresEx(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&endPos))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
         startRadius,
         endRadius,
         sides,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5980,12 +5993,12 @@ pub fn DrawCapsule(
     color: Color,
 ) void {
     raylib.mDrawCapsule(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&endPos))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
         radius,
         slices,
         rings,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -5999,12 +6012,12 @@ pub fn DrawCapsuleWires(
     color: Color,
 ) void {
     raylib.mDrawCapsuleWires(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&startPos))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&endPos))),
+        @ptrFromInt(@intFromPtr(&startPos)),
+        @ptrFromInt(@intFromPtr(&endPos)),
         radius,
         slices,
         rings,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -6015,9 +6028,9 @@ pub fn DrawPlane(
     color: Color,
 ) void {
     raylib.mDrawPlane(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&centerPos))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&size))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&centerPos)),
+        @ptrFromInt(@intFromPtr(&size)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -6027,8 +6040,8 @@ pub fn DrawRay(
     color: Color,
 ) void {
     raylib.mDrawRay(
-        @as([*c]raylib.Ray, @ptrFromInt(@intFromPtr(&ray))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&ray)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -6049,8 +6062,8 @@ pub fn LoadModel(
 ) Model {
     var out: Model = undefined;
     raylib.mLoadModel(
-        @as([*c]raylib.Model, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -6061,8 +6074,8 @@ pub fn LoadModelFromMesh(
 ) Model {
     var out: Model = undefined;
     raylib.mLoadModelFromMesh(
-        @as([*c]raylib.Model, @ptrCast(&out)),
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&mesh)),
     );
     return out;
 }
@@ -6072,7 +6085,7 @@ pub fn IsModelReady(
     model: Model,
 ) bool {
     return raylib.mIsModelReady(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
+        @ptrFromInt(@intFromPtr(&model)),
     );
 }
 
@@ -6081,7 +6094,7 @@ pub fn UnloadModel(
     model: Model,
 ) void {
     raylib.mUnloadModel(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
+        @ptrFromInt(@intFromPtr(&model)),
     );
 }
 
@@ -6091,8 +6104,8 @@ pub fn GetModelBoundingBox(
 ) BoundingBox {
     var out: BoundingBox = undefined;
     raylib.mGetModelBoundingBox(
-        @as([*c]raylib.BoundingBox, @ptrCast(&out)),
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&model)),
     );
     return out;
 }
@@ -6105,10 +6118,10 @@ pub fn DrawModel(
     tint: Color,
 ) void {
     raylib.mDrawModel(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&model)),
+        @ptrFromInt(@intFromPtr(&position)),
         scale,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -6122,12 +6135,12 @@ pub fn DrawModelEx(
     tint: Color,
 ) void {
     raylib.mDrawModelEx(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&rotationAxis))),
+        @ptrFromInt(@intFromPtr(&model)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&rotationAxis)),
         rotationAngle,
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&scale))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&scale)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -6139,10 +6152,10 @@ pub fn DrawModelWires(
     tint: Color,
 ) void {
     raylib.mDrawModelWires(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&model)),
+        @ptrFromInt(@intFromPtr(&position)),
         scale,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -6156,12 +6169,12 @@ pub fn DrawModelWiresEx(
     tint: Color,
 ) void {
     raylib.mDrawModelWiresEx(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&rotationAxis))),
+        @ptrFromInt(@intFromPtr(&model)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&rotationAxis)),
         rotationAngle,
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&scale))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&scale)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -6171,8 +6184,8 @@ pub fn DrawBoundingBox(
     color: Color,
 ) void {
     raylib.mDrawBoundingBox(
-        @as([*c]raylib.BoundingBox, @ptrFromInt(@intFromPtr(&box))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&color))),
+        @ptrFromInt(@intFromPtr(&box)),
+        @ptrFromInt(@intFromPtr(&color)),
     );
 }
 
@@ -6185,11 +6198,11 @@ pub fn DrawBillboard(
     tint: Color,
 ) void {
     raylib.mDrawBillboard(
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
+        @ptrFromInt(@intFromPtr(&camera)),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&position)),
         size,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -6203,12 +6216,12 @@ pub fn DrawBillboardRec(
     tint: Color,
 ) void {
     raylib.mDrawBillboardRec(
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&source))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&size))),
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&camera)),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&source)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&size)),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -6225,15 +6238,15 @@ pub fn DrawBillboardPro(
     tint: Color,
 ) void {
     raylib.mDrawBillboardPro(
-        @as([*c]raylib.Camera3D, @ptrFromInt(@intFromPtr(&camera))),
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
-        @as([*c]raylib.Rectangle, @ptrFromInt(@intFromPtr(&source))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&position))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&up))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&size))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&origin))),
+        @ptrFromInt(@intFromPtr(&camera)),
+        @ptrFromInt(@intFromPtr(&texture)),
+        @ptrFromInt(@intFromPtr(&source)),
+        @ptrFromInt(@intFromPtr(&position)),
+        @ptrFromInt(@intFromPtr(&up)),
+        @ptrFromInt(@intFromPtr(&size)),
+        @ptrFromInt(@intFromPtr(&origin)),
         rotation,
-        @as([*c]raylib.Color, @ptrFromInt(@intFromPtr(&tint))),
+        @ptrFromInt(@intFromPtr(&tint)),
     );
 }
 
@@ -6243,7 +6256,7 @@ pub fn UploadMesh(
     dynamic: bool,
 ) void {
     raylib.mUploadMesh(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(mesh))),
+        @ptrFromInt(@intFromPtr(mesh)),
         dynamic,
     );
 }
@@ -6257,7 +6270,7 @@ pub fn UpdateMeshBuffer(
     offset: i32,
 ) void {
     raylib.mUpdateMeshBuffer(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
+        @ptrFromInt(@intFromPtr(&mesh)),
         index,
         data,
         dataSize,
@@ -6270,7 +6283,7 @@ pub fn UnloadMesh(
     mesh: Mesh,
 ) void {
     raylib.mUnloadMesh(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
+        @ptrFromInt(@intFromPtr(&mesh)),
     );
 }
 
@@ -6281,9 +6294,9 @@ pub fn DrawMesh(
     transform: Matrix,
 ) void {
     raylib.mDrawMesh(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
-        @as([*c]raylib.Material, @ptrFromInt(@intFromPtr(&material))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&transform))),
+        @ptrFromInt(@intFromPtr(&mesh)),
+        @ptrFromInt(@intFromPtr(&material)),
+        @ptrFromInt(@intFromPtr(&transform)),
     );
 }
 
@@ -6295,9 +6308,9 @@ pub fn DrawMeshInstanced(
     instances: i32,
 ) void {
     raylib.mDrawMeshInstanced(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
-        @as([*c]raylib.Material, @ptrFromInt(@intFromPtr(&material))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(transforms))),
+        @ptrFromInt(@intFromPtr(&mesh)),
+        @ptrFromInt(@intFromPtr(&material)),
+        @ptrFromInt(@intFromPtr(transforms)),
         instances,
     );
 }
@@ -6308,8 +6321,8 @@ pub fn GetMeshBoundingBox(
 ) BoundingBox {
     var out: BoundingBox = undefined;
     raylib.mGetMeshBoundingBox(
-        @as([*c]raylib.BoundingBox, @ptrCast(&out)),
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&mesh)),
     );
     return out;
 }
@@ -6319,7 +6332,7 @@ pub fn GenMeshTangents(
     mesh: ?[*]Mesh,
 ) void {
     raylib.mGenMeshTangents(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(mesh))),
+        @ptrFromInt(@intFromPtr(mesh)),
     );
 }
 
@@ -6329,8 +6342,8 @@ pub fn ExportMesh(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportMesh(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&mesh)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -6340,8 +6353,8 @@ pub fn ExportMeshAsCode(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportMeshAsCode(
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&mesh)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -6352,7 +6365,7 @@ pub fn GenMeshPoly(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshPoly(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         sides,
         radius,
     );
@@ -6368,7 +6381,7 @@ pub fn GenMeshPlane(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshPlane(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         length,
         resX,
@@ -6385,7 +6398,7 @@ pub fn GenMeshCube(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshCube(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         width,
         height,
         length,
@@ -6401,7 +6414,7 @@ pub fn GenMeshSphere(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshSphere(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         radius,
         rings,
         slices,
@@ -6417,7 +6430,7 @@ pub fn GenMeshHemiSphere(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshHemiSphere(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         radius,
         rings,
         slices,
@@ -6433,7 +6446,7 @@ pub fn GenMeshCylinder(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshCylinder(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         radius,
         height,
         slices,
@@ -6449,7 +6462,7 @@ pub fn GenMeshCone(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshCone(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         radius,
         height,
         slices,
@@ -6466,7 +6479,7 @@ pub fn GenMeshTorus(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshTorus(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         radius,
         size,
         radSeg,
@@ -6484,7 +6497,7 @@ pub fn GenMeshKnot(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshKnot(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
+        @ptrCast(&out),
         radius,
         size,
         radSeg,
@@ -6500,9 +6513,9 @@ pub fn GenMeshHeightmap(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshHeightmap(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&heightmap))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&size))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&heightmap)),
+        @ptrFromInt(@intFromPtr(&size)),
     );
     return out;
 }
@@ -6514,9 +6527,9 @@ pub fn GenMeshCubicmap(
 ) Mesh {
     var out: Mesh = undefined;
     raylib.mGenMeshCubicmap(
-        @as([*c]raylib.Mesh, @ptrCast(&out)),
-        @as([*c]raylib.Image, @ptrFromInt(@intFromPtr(&cubicmap))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&cubeSize))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&cubicmap)),
+        @ptrFromInt(@intFromPtr(&cubeSize)),
     );
     return out;
 }
@@ -6526,12 +6539,11 @@ pub fn LoadMaterials(
     fileName: [*:0]const u8,
     materialCount: ?[*]i32,
 ) ?[*]Material {
-    return @as(
-        ?[*]Material,
-        @ptrCast(raylib.mLoadMaterials(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-            @as([*c]i32, @ptrCast(materialCount)),
-        )),
+    return @ptrCast(
+        raylib.mLoadMaterials(
+            @ptrFromInt(@intFromPtr(fileName)),
+            @ptrCast(materialCount),
+        ),
     );
 }
 
@@ -6539,7 +6551,7 @@ pub fn LoadMaterials(
 pub fn LoadMaterialDefault() Material {
     var out: Material = undefined;
     raylib.mLoadMaterialDefault(
-        @as([*c]raylib.Material, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -6549,7 +6561,7 @@ pub fn IsMaterialReady(
     material: Material,
 ) bool {
     return raylib.mIsMaterialReady(
-        @as([*c]raylib.Material, @ptrFromInt(@intFromPtr(&material))),
+        @ptrFromInt(@intFromPtr(&material)),
     );
 }
 
@@ -6558,7 +6570,7 @@ pub fn UnloadMaterial(
     material: Material,
 ) void {
     raylib.mUnloadMaterial(
-        @as([*c]raylib.Material, @ptrFromInt(@intFromPtr(&material))),
+        @ptrFromInt(@intFromPtr(&material)),
     );
 }
 
@@ -6569,9 +6581,9 @@ pub fn SetMaterialTexture(
     texture: Texture2D,
 ) void {
     raylib.mSetMaterialTexture(
-        @as([*c]raylib.Material, @ptrFromInt(@intFromPtr(material))),
+        @ptrFromInt(@intFromPtr(material)),
         mapType,
-        @as([*c]raylib.Texture2D, @ptrFromInt(@intFromPtr(&texture))),
+        @ptrFromInt(@intFromPtr(&texture)),
     );
 }
 
@@ -6582,7 +6594,7 @@ pub fn SetModelMeshMaterial(
     materialId: i32,
 ) void {
     raylib.mSetModelMeshMaterial(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(model))),
+        @ptrFromInt(@intFromPtr(model)),
         meshId,
         materialId,
     );
@@ -6593,12 +6605,11 @@ pub fn LoadModelAnimations(
     fileName: [*:0]const u8,
     animCount: ?[*]i32,
 ) ?[*]ModelAnimation {
-    return @as(
-        ?[*]ModelAnimation,
-        @ptrCast(raylib.mLoadModelAnimations(
-            @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
-            @as([*c]i32, @ptrCast(animCount)),
-        )),
+    return @ptrCast(
+        raylib.mLoadModelAnimations(
+            @ptrFromInt(@intFromPtr(fileName)),
+            @ptrCast(animCount),
+        ),
     );
 }
 
@@ -6609,8 +6620,8 @@ pub fn UpdateModelAnimation(
     frame: i32,
 ) void {
     raylib.mUpdateModelAnimation(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
-        @as([*c]raylib.ModelAnimation, @ptrFromInt(@intFromPtr(&anim))),
+        @ptrFromInt(@intFromPtr(&model)),
+        @ptrFromInt(@intFromPtr(&anim)),
         frame,
     );
 }
@@ -6620,7 +6631,7 @@ pub fn UnloadModelAnimation(
     anim: ModelAnimation,
 ) void {
     raylib.mUnloadModelAnimation(
-        @as([*c]raylib.ModelAnimation, @ptrFromInt(@intFromPtr(&anim))),
+        @ptrFromInt(@intFromPtr(&anim)),
     );
 }
 
@@ -6630,7 +6641,7 @@ pub fn UnloadModelAnimations(
     animCount: i32,
 ) void {
     raylib.mUnloadModelAnimations(
-        @as([*c]raylib.ModelAnimation, @ptrFromInt(@intFromPtr(animations))),
+        @ptrFromInt(@intFromPtr(animations)),
         animCount,
     );
 }
@@ -6641,8 +6652,8 @@ pub fn IsModelAnimationValid(
     anim: ModelAnimation,
 ) bool {
     return raylib.mIsModelAnimationValid(
-        @as([*c]raylib.Model, @ptrFromInt(@intFromPtr(&model))),
-        @as([*c]raylib.ModelAnimation, @ptrFromInt(@intFromPtr(&anim))),
+        @ptrFromInt(@intFromPtr(&model)),
+        @ptrFromInt(@intFromPtr(&anim)),
     );
 }
 
@@ -6654,9 +6665,9 @@ pub fn CheckCollisionSpheres(
     radius2: f32,
 ) bool {
     return raylib.mCheckCollisionSpheres(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&center1))),
+        @ptrFromInt(@intFromPtr(&center1)),
         radius1,
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&center2))),
+        @ptrFromInt(@intFromPtr(&center2)),
         radius2,
     );
 }
@@ -6667,8 +6678,8 @@ pub fn CheckCollisionBoxes(
     box2: BoundingBox,
 ) bool {
     return raylib.mCheckCollisionBoxes(
-        @as([*c]raylib.BoundingBox, @ptrFromInt(@intFromPtr(&box1))),
-        @as([*c]raylib.BoundingBox, @ptrFromInt(@intFromPtr(&box2))),
+        @ptrFromInt(@intFromPtr(&box1)),
+        @ptrFromInt(@intFromPtr(&box2)),
     );
 }
 
@@ -6679,8 +6690,8 @@ pub fn CheckCollisionBoxSphere(
     radius: f32,
 ) bool {
     return raylib.mCheckCollisionBoxSphere(
-        @as([*c]raylib.BoundingBox, @ptrFromInt(@intFromPtr(&box))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&center))),
+        @ptrFromInt(@intFromPtr(&box)),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
     );
 }
@@ -6693,9 +6704,9 @@ pub fn GetRayCollisionSphere(
 ) RayCollision {
     var out: RayCollision = undefined;
     raylib.mGetRayCollisionSphere(
-        @as([*c]raylib.RayCollision, @ptrCast(&out)),
-        @as([*c]raylib.Ray, @ptrFromInt(@intFromPtr(&ray))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&center))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&ray)),
+        @ptrFromInt(@intFromPtr(&center)),
         radius,
     );
     return out;
@@ -6708,9 +6719,9 @@ pub fn GetRayCollisionBox(
 ) RayCollision {
     var out: RayCollision = undefined;
     raylib.mGetRayCollisionBox(
-        @as([*c]raylib.RayCollision, @ptrCast(&out)),
-        @as([*c]raylib.Ray, @ptrFromInt(@intFromPtr(&ray))),
-        @as([*c]raylib.BoundingBox, @ptrFromInt(@intFromPtr(&box))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&ray)),
+        @ptrFromInt(@intFromPtr(&box)),
     );
     return out;
 }
@@ -6723,10 +6734,10 @@ pub fn GetRayCollisionMesh(
 ) RayCollision {
     var out: RayCollision = undefined;
     raylib.mGetRayCollisionMesh(
-        @as([*c]raylib.RayCollision, @ptrCast(&out)),
-        @as([*c]raylib.Ray, @ptrFromInt(@intFromPtr(&ray))),
-        @as([*c]raylib.Mesh, @ptrFromInt(@intFromPtr(&mesh))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&transform))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&ray)),
+        @ptrFromInt(@intFromPtr(&mesh)),
+        @ptrFromInt(@intFromPtr(&transform)),
     );
     return out;
 }
@@ -6740,11 +6751,11 @@ pub fn GetRayCollisionTriangle(
 ) RayCollision {
     var out: RayCollision = undefined;
     raylib.mGetRayCollisionTriangle(
-        @as([*c]raylib.RayCollision, @ptrCast(&out)),
-        @as([*c]raylib.Ray, @ptrFromInt(@intFromPtr(&ray))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p2))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p3))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&ray)),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
+        @ptrFromInt(@intFromPtr(&p3)),
     );
     return out;
 }
@@ -6759,12 +6770,12 @@ pub fn GetRayCollisionQuad(
 ) RayCollision {
     var out: RayCollision = undefined;
     raylib.mGetRayCollisionQuad(
-        @as([*c]raylib.RayCollision, @ptrCast(&out)),
-        @as([*c]raylib.Ray, @ptrFromInt(@intFromPtr(&ray))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p2))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p3))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p4))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&ray)),
+        @ptrFromInt(@intFromPtr(&p1)),
+        @ptrFromInt(@intFromPtr(&p2)),
+        @ptrFromInt(@intFromPtr(&p3)),
+        @ptrFromInt(@intFromPtr(&p4)),
     );
     return out;
 }
@@ -6804,8 +6815,8 @@ pub fn LoadWave(
 ) Wave {
     var out: Wave = undefined;
     raylib.mLoadWave(
-        @as([*c]raylib.Wave, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -6818,9 +6829,9 @@ pub fn LoadWaveFromMemory(
 ) Wave {
     var out: Wave = undefined;
     raylib.mLoadWaveFromMemory(
-        @as([*c]raylib.Wave, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileType))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileData))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileType)),
+        @ptrFromInt(@intFromPtr(fileData)),
         dataSize,
     );
     return out;
@@ -6831,7 +6842,7 @@ pub fn IsWaveReady(
     wave: Wave,
 ) bool {
     return raylib.mIsWaveReady(
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(&wave))),
+        @ptrFromInt(@intFromPtr(&wave)),
     );
 }
 
@@ -6841,8 +6852,8 @@ pub fn LoadSound(
 ) Sound {
     var out: Sound = undefined;
     raylib.mLoadSound(
-        @as([*c]raylib.Sound, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -6853,8 +6864,8 @@ pub fn LoadSoundFromWave(
 ) Sound {
     var out: Sound = undefined;
     raylib.mLoadSoundFromWave(
-        @as([*c]raylib.Sound, @ptrCast(&out)),
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(&wave))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&wave)),
     );
     return out;
 }
@@ -6865,8 +6876,8 @@ pub fn LoadSoundAlias(
 ) Sound {
     var out: Sound = undefined;
     raylib.mLoadSoundAlias(
-        @as([*c]raylib.Sound, @ptrCast(&out)),
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&source))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&source)),
     );
     return out;
 }
@@ -6876,7 +6887,7 @@ pub fn IsSoundReady(
     sound: Sound,
 ) bool {
     return raylib.mIsSoundReady(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
     );
 }
 
@@ -6887,7 +6898,7 @@ pub fn UpdateSound(
     sampleCount: i32,
 ) void {
     raylib.mUpdateSound(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
         data,
         sampleCount,
     );
@@ -6898,7 +6909,7 @@ pub fn UnloadWave(
     wave: Wave,
 ) void {
     raylib.mUnloadWave(
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(&wave))),
+        @ptrFromInt(@intFromPtr(&wave)),
     );
 }
 
@@ -6907,7 +6918,7 @@ pub fn UnloadSound(
     sound: Sound,
 ) void {
     raylib.mUnloadSound(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
     );
 }
 
@@ -6916,7 +6927,7 @@ pub fn UnloadSoundAlias(
     alias: Sound,
 ) void {
     raylib.mUnloadSoundAlias(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&alias))),
+        @ptrFromInt(@intFromPtr(&alias)),
     );
 }
 
@@ -6926,8 +6937,8 @@ pub fn ExportWave(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportWave(
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(&wave))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&wave)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -6937,8 +6948,8 @@ pub fn ExportWaveAsCode(
     fileName: [*:0]const u8,
 ) bool {
     return raylib.mExportWaveAsCode(
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(&wave))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrFromInt(@intFromPtr(&wave)),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
 }
 
@@ -6947,7 +6958,7 @@ pub fn PlaySound(
     sound: Sound,
 ) void {
     raylib.mPlaySound(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
     );
 }
 
@@ -6956,7 +6967,7 @@ pub fn StopSound(
     sound: Sound,
 ) void {
     raylib.mStopSound(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
     );
 }
 
@@ -6965,7 +6976,7 @@ pub fn PauseSound(
     sound: Sound,
 ) void {
     raylib.mPauseSound(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
     );
 }
 
@@ -6974,7 +6985,7 @@ pub fn ResumeSound(
     sound: Sound,
 ) void {
     raylib.mResumeSound(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
     );
 }
 
@@ -6983,7 +6994,7 @@ pub fn IsSoundPlaying(
     sound: Sound,
 ) bool {
     return raylib.mIsSoundPlaying(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
     );
 }
 
@@ -6993,7 +7004,7 @@ pub fn SetSoundVolume(
     volume: f32,
 ) void {
     raylib.mSetSoundVolume(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
         volume,
     );
 }
@@ -7004,7 +7015,7 @@ pub fn SetSoundPitch(
     pitch: f32,
 ) void {
     raylib.mSetSoundPitch(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
         pitch,
     );
 }
@@ -7015,7 +7026,7 @@ pub fn SetSoundPan(
     pan: f32,
 ) void {
     raylib.mSetSoundPan(
-        @as([*c]raylib.Sound, @ptrFromInt(@intFromPtr(&sound))),
+        @ptrFromInt(@intFromPtr(&sound)),
         pan,
     );
 }
@@ -7026,8 +7037,8 @@ pub fn WaveCopy(
 ) Wave {
     var out: Wave = undefined;
     raylib.mWaveCopy(
-        @as([*c]raylib.Wave, @ptrCast(&out)),
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(&wave))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&wave)),
     );
     return out;
 }
@@ -7039,7 +7050,7 @@ pub fn WaveCrop(
     finalSample: i32,
 ) void {
     raylib.mWaveCrop(
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(wave))),
+        @ptrFromInt(@intFromPtr(wave)),
         initSample,
         finalSample,
     );
@@ -7053,7 +7064,7 @@ pub fn WaveFormat(
     channels: i32,
 ) void {
     raylib.mWaveFormat(
-        @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(wave))),
+        @ptrFromInt(@intFromPtr(wave)),
         sampleRate,
         sampleSize,
         channels,
@@ -7064,11 +7075,10 @@ pub fn WaveFormat(
 pub fn LoadWaveSamples(
     wave: Wave,
 ) ?[*]f32 {
-    return @as(
-        ?[*]f32,
-        @ptrCast(raylib.mLoadWaveSamples(
-            @as([*c]raylib.Wave, @ptrFromInt(@intFromPtr(&wave))),
-        )),
+    return @ptrCast(
+        raylib.mLoadWaveSamples(
+            @ptrFromInt(@intFromPtr(&wave)),
+        ),
     );
 }
 
@@ -7077,7 +7087,7 @@ pub fn UnloadWaveSamples(
     samples: ?[*]f32,
 ) void {
     raylib.mUnloadWaveSamples(
-        @as([*c]f32, @ptrCast(samples)),
+        @ptrCast(samples),
     );
 }
 
@@ -7087,8 +7097,8 @@ pub fn LoadMusicStream(
 ) Music {
     var out: Music = undefined;
     raylib.mLoadMusicStream(
-        @as([*c]raylib.Music, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileName))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileName)),
     );
     return out;
 }
@@ -7101,9 +7111,9 @@ pub fn LoadMusicStreamFromMemory(
 ) Music {
     var out: Music = undefined;
     raylib.mLoadMusicStreamFromMemory(
-        @as([*c]raylib.Music, @ptrCast(&out)),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fileType))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(data))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(fileType)),
+        @ptrFromInt(@intFromPtr(data)),
         dataSize,
     );
     return out;
@@ -7114,7 +7124,7 @@ pub fn IsMusicReady(
     music: Music,
 ) bool {
     return raylib.mIsMusicReady(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7123,7 +7133,7 @@ pub fn UnloadMusicStream(
     music: Music,
 ) void {
     raylib.mUnloadMusicStream(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7132,7 +7142,7 @@ pub fn PlayMusicStream(
     music: Music,
 ) void {
     raylib.mPlayMusicStream(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7141,7 +7151,7 @@ pub fn IsMusicStreamPlaying(
     music: Music,
 ) bool {
     return raylib.mIsMusicStreamPlaying(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7150,7 +7160,7 @@ pub fn UpdateMusicStream(
     music: Music,
 ) void {
     raylib.mUpdateMusicStream(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7159,7 +7169,7 @@ pub fn StopMusicStream(
     music: Music,
 ) void {
     raylib.mStopMusicStream(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7168,7 +7178,7 @@ pub fn PauseMusicStream(
     music: Music,
 ) void {
     raylib.mPauseMusicStream(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7177,7 +7187,7 @@ pub fn ResumeMusicStream(
     music: Music,
 ) void {
     raylib.mResumeMusicStream(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7187,7 +7197,7 @@ pub fn SeekMusicStream(
     position: f32,
 ) void {
     raylib.mSeekMusicStream(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
         position,
     );
 }
@@ -7198,7 +7208,7 @@ pub fn SetMusicVolume(
     volume: f32,
 ) void {
     raylib.mSetMusicVolume(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
         volume,
     );
 }
@@ -7209,7 +7219,7 @@ pub fn SetMusicPitch(
     pitch: f32,
 ) void {
     raylib.mSetMusicPitch(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
         pitch,
     );
 }
@@ -7220,7 +7230,7 @@ pub fn SetMusicPan(
     pan: f32,
 ) void {
     raylib.mSetMusicPan(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
         pan,
     );
 }
@@ -7230,7 +7240,7 @@ pub fn GetMusicTimeLength(
     music: Music,
 ) f32 {
     return raylib.mGetMusicTimeLength(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7239,7 +7249,7 @@ pub fn GetMusicTimePlayed(
     music: Music,
 ) f32 {
     return raylib.mGetMusicTimePlayed(
-        @as([*c]raylib.Music, @ptrFromInt(@intFromPtr(&music))),
+        @ptrFromInt(@intFromPtr(&music)),
     );
 }
 
@@ -7251,7 +7261,7 @@ pub fn LoadAudioStream(
 ) AudioStream {
     var out: AudioStream = undefined;
     raylib.mLoadAudioStream(
-        @as([*c]raylib.AudioStream, @ptrCast(&out)),
+        @ptrCast(&out),
         sampleRate,
         sampleSize,
         channels,
@@ -7264,7 +7274,7 @@ pub fn IsAudioStreamReady(
     stream: AudioStream,
 ) bool {
     return raylib.mIsAudioStreamReady(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7273,7 +7283,7 @@ pub fn UnloadAudioStream(
     stream: AudioStream,
 ) void {
     raylib.mUnloadAudioStream(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7284,7 +7294,7 @@ pub fn UpdateAudioStream(
     frameCount: i32,
 ) void {
     raylib.mUpdateAudioStream(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
         data,
         frameCount,
     );
@@ -7295,7 +7305,7 @@ pub fn IsAudioStreamProcessed(
     stream: AudioStream,
 ) bool {
     return raylib.mIsAudioStreamProcessed(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7304,7 +7314,7 @@ pub fn PlayAudioStream(
     stream: AudioStream,
 ) void {
     raylib.mPlayAudioStream(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7313,7 +7323,7 @@ pub fn PauseAudioStream(
     stream: AudioStream,
 ) void {
     raylib.mPauseAudioStream(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7322,7 +7332,7 @@ pub fn ResumeAudioStream(
     stream: AudioStream,
 ) void {
     raylib.mResumeAudioStream(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7331,7 +7341,7 @@ pub fn IsAudioStreamPlaying(
     stream: AudioStream,
 ) bool {
     return raylib.mIsAudioStreamPlaying(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7340,7 +7350,7 @@ pub fn StopAudioStream(
     stream: AudioStream,
 ) void {
     raylib.mStopAudioStream(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
     );
 }
 
@@ -7350,7 +7360,7 @@ pub fn SetAudioStreamVolume(
     volume: f32,
 ) void {
     raylib.mSetAudioStreamVolume(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
         volume,
     );
 }
@@ -7361,7 +7371,7 @@ pub fn SetAudioStreamPitch(
     pitch: f32,
 ) void {
     raylib.mSetAudioStreamPitch(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
         pitch,
     );
 }
@@ -7372,7 +7382,7 @@ pub fn SetAudioStreamPan(
     pan: f32,
 ) void {
     raylib.mSetAudioStreamPan(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
         pan,
     );
 }
@@ -7392,7 +7402,7 @@ pub fn SetAudioStreamCallback(
     callback: AudioCallback,
 ) void {
     raylib.mSetAudioStreamCallback(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
         @ptrCast(callback),
     );
 }
@@ -7403,7 +7413,7 @@ pub fn AttachAudioStreamProcessor(
     processor: AudioCallback,
 ) void {
     raylib.mAttachAudioStreamProcessor(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
         @ptrCast(processor),
     );
 }
@@ -7414,7 +7424,7 @@ pub fn DetachAudioStreamProcessor(
     processor: AudioCallback,
 ) void {
     raylib.mDetachAudioStreamProcessor(
-        @as([*c]raylib.AudioStream, @ptrFromInt(@intFromPtr(&stream))),
+        @ptrFromInt(@intFromPtr(&stream)),
         @ptrCast(processor),
     );
 }
@@ -7507,7 +7517,7 @@ pub fn rlMultMatrixf(
     matf: ?[*]const f32,
 ) void {
     raylib.mrlMultMatrixf(
-        @as([*c]const f32, @ptrFromInt(@intFromPtr(matf))),
+        @ptrFromInt(@intFromPtr(matf)),
     );
 }
 
@@ -7829,6 +7839,11 @@ pub fn rlEnableFramebuffer(
 /// Disable render texture (fbo), return to default framebuffer
 pub fn rlDisableFramebuffer() void {
     raylib.mrlDisableFramebuffer();
+}
+
+/// Get the currently active render texture (fbo), 0 for default framebuffer
+pub fn rlGetActiveFramebuffer() u32 {
+    return raylib.mrlGetActiveFramebuffer();
 }
 
 /// Activate multiple draw color buffers
@@ -8155,9 +8170,8 @@ pub fn rlGetShaderIdDefault() u32 {
 
 /// Get default shader locations
 pub fn rlGetShaderLocsDefault() ?[*]i32 {
-    return @as(
-        ?[*]i32,
-        @ptrCast(raylib.mrlGetShaderLocsDefault()),
+    return @ptrCast(
+        raylib.mrlGetShaderLocsDefault(),
     );
 }
 
@@ -8168,7 +8182,7 @@ pub fn rlLoadRenderBatch(
 ) rlRenderBatch {
     var out: rlRenderBatch = undefined;
     raylib.mrlLoadRenderBatch(
-        @as([*c]raylib.rlRenderBatch, @ptrCast(&out)),
+        @ptrCast(&out),
         numBuffers,
         bufferElements,
     );
@@ -8180,7 +8194,7 @@ pub fn rlUnloadRenderBatch(
     batch: rlRenderBatch,
 ) void {
     raylib.mrlUnloadRenderBatch(
-        @as([*c]raylib.rlRenderBatch, @ptrFromInt(@intFromPtr(&batch))),
+        @ptrFromInt(@intFromPtr(&batch)),
     );
 }
 
@@ -8189,7 +8203,7 @@ pub fn rlDrawRenderBatch(
     batch: ?[*]rlRenderBatch,
 ) void {
     raylib.mrlDrawRenderBatch(
-        @as([*c]raylib.rlRenderBatch, @ptrFromInt(@intFromPtr(batch))),
+        @ptrFromInt(@intFromPtr(batch)),
     );
 }
 
@@ -8198,7 +8212,7 @@ pub fn rlSetRenderBatchActive(
     batch: ?[*]rlRenderBatch,
 ) void {
     raylib.mrlSetRenderBatchActive(
-        @as([*c]raylib.rlRenderBatch, @ptrFromInt(@intFromPtr(batch))),
+        @ptrFromInt(@intFromPtr(batch)),
     );
 }
 
@@ -8310,7 +8324,7 @@ pub fn rlCompileShader(
     typ: i32,
 ) u32 {
     return raylib.mrlCompileShader(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(shaderCode))),
+        @ptrFromInt(@intFromPtr(shaderCode)),
         typ,
     );
 }
@@ -8466,9 +8480,9 @@ pub fn rlGetGlTextureFormats(
 ) void {
     raylib.mrlGetGlTextureFormats(
         format,
-        @as([*c]u32, @ptrCast(glInternalFormat)),
-        @as([*c]u32, @ptrCast(glFormat)),
-        @as([*c]u32, @ptrCast(glType)),
+        @ptrCast(glInternalFormat),
+        @ptrCast(glFormat),
+        @ptrCast(glType),
     );
 }
 
@@ -8476,11 +8490,10 @@ pub fn rlGetGlTextureFormats(
 pub fn rlGetPixelFormatName(
     format: u32,
 ) [*:0]const u8 {
-    return @as(
-        [*:0]const u8,
-        @ptrCast(raylib.mrlGetPixelFormatName(
+    return @ptrCast(
+        raylib.mrlGetPixelFormatName(
             format,
-        )),
+        ),
     );
 }
 
@@ -8506,7 +8519,7 @@ pub fn rlGenTextureMipmaps(
         width,
         height,
         format,
-        @as([*c]i32, @ptrCast(mipmaps)),
+        @ptrCast(mipmaps),
     );
 }
 
@@ -8517,14 +8530,13 @@ pub fn rlReadTexturePixels(
     height: i32,
     format: i32,
 ) *anyopaque {
-    return @as(
-        *anyopaque,
-        @ptrCast(raylib.mrlReadTexturePixels(
+    return @ptrCast(
+        raylib.mrlReadTexturePixels(
             id,
             width,
             height,
             format,
-        )),
+        ),
     );
 }
 
@@ -8533,24 +8545,17 @@ pub fn rlReadScreenPixels(
     width: i32,
     height: i32,
 ) [*:0]const u8 {
-    return @as(
-        ?[*]u8,
-        @ptrCast(raylib.mrlReadScreenPixels(
+    return @ptrCast(
+        raylib.mrlReadScreenPixels(
             width,
             height,
-        )),
+        ),
     );
 }
 
 /// Load an empty framebuffer
-pub fn rlLoadFramebuffer(
-    width: i32,
-    height: i32,
-) u32 {
-    return raylib.mrlLoadFramebuffer(
-        width,
-        height,
-    );
+pub fn rlLoadFramebuffer() u32 {
+    return raylib.mrlLoadFramebuffer();
 }
 
 /// Attach texture/renderbuffer to a framebuffer
@@ -8594,8 +8599,8 @@ pub fn rlLoadShaderCode(
     fsCode: [*:0]const u8,
 ) u32 {
     return raylib.mrlLoadShaderCode(
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(vsCode))),
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(fsCode))),
+        @ptrFromInt(@intFromPtr(vsCode)),
+        @ptrFromInt(@intFromPtr(fsCode)),
     );
 }
 
@@ -8626,7 +8631,7 @@ pub fn rlGetLocationUniform(
 ) i32 {
     return raylib.mrlGetLocationUniform(
         shaderId,
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(uniformName))),
+        @ptrFromInt(@intFromPtr(uniformName)),
     );
 }
 
@@ -8637,7 +8642,7 @@ pub fn rlGetLocationAttrib(
 ) i32 {
     return raylib.mrlGetLocationAttrib(
         shaderId,
-        @as([*c]const u8, @ptrFromInt(@intFromPtr(attribName))),
+        @ptrFromInt(@intFromPtr(attribName)),
     );
 }
 
@@ -8663,7 +8668,7 @@ pub fn rlSetUniformMatrix(
 ) void {
     raylib.mrlSetUniformMatrix(
         locIndex,
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
 }
 
@@ -8685,7 +8690,7 @@ pub fn rlSetShader(
 ) void {
     raylib.mrlSetShader(
         id,
-        @as([*c]i32, @ptrCast(locs)),
+        @ptrCast(locs),
     );
 }
 
@@ -8819,7 +8824,7 @@ pub fn rlBindImageTexture(
 pub fn rlGetMatrixModelview() Matrix {
     var out: Matrix = undefined;
     raylib.mrlGetMatrixModelview(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -8828,7 +8833,7 @@ pub fn rlGetMatrixModelview() Matrix {
 pub fn rlGetMatrixProjection() Matrix {
     var out: Matrix = undefined;
     raylib.mrlGetMatrixProjection(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -8837,7 +8842,7 @@ pub fn rlGetMatrixProjection() Matrix {
 pub fn rlGetMatrixTransform() Matrix {
     var out: Matrix = undefined;
     raylib.mrlGetMatrixTransform(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -8848,7 +8853,7 @@ pub fn rlGetMatrixProjectionStereo(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mrlGetMatrixProjectionStereo(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         eye,
     );
     return out;
@@ -8860,7 +8865,7 @@ pub fn rlGetMatrixViewOffsetStereo(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mrlGetMatrixViewOffsetStereo(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         eye,
     );
     return out;
@@ -8871,7 +8876,7 @@ pub fn rlSetMatrixProjection(
     proj: Matrix,
 ) void {
     raylib.mrlSetMatrixProjection(
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&proj))),
+        @ptrFromInt(@intFromPtr(&proj)),
     );
 }
 
@@ -8880,7 +8885,7 @@ pub fn rlSetMatrixModelview(
     view: Matrix,
 ) void {
     raylib.mrlSetMatrixModelview(
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&view))),
+        @ptrFromInt(@intFromPtr(&view)),
     );
 }
 
@@ -8890,8 +8895,8 @@ pub fn rlSetMatrixProjectionStereo(
     left: Matrix,
 ) void {
     raylib.mrlSetMatrixProjectionStereo(
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&right))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&left))),
+        @ptrFromInt(@intFromPtr(&right)),
+        @ptrFromInt(@intFromPtr(&left)),
     );
 }
 
@@ -8901,8 +8906,8 @@ pub fn rlSetMatrixViewOffsetStereo(
     left: Matrix,
 ) void {
     raylib.mrlSetMatrixViewOffsetStereo(
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&right))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&left))),
+        @ptrFromInt(@intFromPtr(&right)),
+        @ptrFromInt(@intFromPtr(&left)),
     );
 }
 
@@ -9000,7 +9005,7 @@ pub fn FloatEquals(
 pub fn Vector2Zero() Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Zero(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -9009,7 +9014,7 @@ pub fn Vector2Zero() Vector2 {
 pub fn Vector2One() Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2One(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -9021,9 +9026,9 @@ pub fn Vector2Add(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Add(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9035,8 +9040,8 @@ pub fn Vector2AddValue(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2AddValue(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         add,
     );
     return out;
@@ -9049,9 +9054,9 @@ pub fn Vector2Subtract(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Subtract(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9063,8 +9068,8 @@ pub fn Vector2SubtractValue(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2SubtractValue(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         sub,
     );
     return out;
@@ -9075,7 +9080,7 @@ pub fn Vector2Length(
     v: Vector2,
 ) f32 {
     return raylib.mVector2Length(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrFromInt(@intFromPtr(&v)),
     );
 }
 
@@ -9084,7 +9089,7 @@ pub fn Vector2LengthSqr(
     v: Vector2,
 ) f32 {
     return raylib.mVector2LengthSqr(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrFromInt(@intFromPtr(&v)),
     );
 }
 
@@ -9094,8 +9099,8 @@ pub fn Vector2DotProduct(
     v2: Vector2,
 ) f32 {
     return raylib.mVector2DotProduct(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9105,8 +9110,8 @@ pub fn Vector2Distance(
     v2: Vector2,
 ) f32 {
     return raylib.mVector2Distance(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9116,8 +9121,8 @@ pub fn Vector2DistanceSqr(
     v2: Vector2,
 ) f32 {
     return raylib.mVector2DistanceSqr(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9127,8 +9132,8 @@ pub fn Vector2Angle(
     v2: Vector2,
 ) f32 {
     return raylib.mVector2Angle(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9138,8 +9143,8 @@ pub fn Vector2LineAngle(
     end: Vector2,
 ) f32 {
     return raylib.mVector2LineAngle(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&start))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&end))),
+        @ptrFromInt(@intFromPtr(&start)),
+        @ptrFromInt(@intFromPtr(&end)),
     );
 }
 
@@ -9150,8 +9155,8 @@ pub fn Vector2Scale(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Scale(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         scale,
     );
     return out;
@@ -9164,9 +9169,9 @@ pub fn Vector2Multiply(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Multiply(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9177,8 +9182,8 @@ pub fn Vector2Negate(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Negate(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9190,9 +9195,9 @@ pub fn Vector2Divide(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Divide(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9203,8 +9208,8 @@ pub fn Vector2Normalize(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Normalize(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9216,9 +9221,9 @@ pub fn Vector2Transform(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Transform(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
     return out;
 }
@@ -9231,9 +9236,9 @@ pub fn Vector2Lerp(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Lerp(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
         amount,
     );
     return out;
@@ -9246,9 +9251,37 @@ pub fn Vector2Reflect(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Reflect(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&normal))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&normal)),
+    );
+    return out;
+}
+
+///
+pub fn Vector2Min(
+    v1: Vector2,
+    v2: Vector2,
+) Vector2 {
+    var out: Vector2 = undefined;
+    raylib.mVector2Min(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+    return out;
+}
+
+///
+pub fn Vector2Max(
+    v1: Vector2,
+    v2: Vector2,
+) Vector2 {
+    var out: Vector2 = undefined;
+    raylib.mVector2Max(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9260,8 +9293,8 @@ pub fn Vector2Rotate(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Rotate(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         angle,
     );
     return out;
@@ -9275,9 +9308,9 @@ pub fn Vector2MoveTowards(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2MoveTowards(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&target))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&target)),
         maxDistance,
     );
     return out;
@@ -9289,8 +9322,8 @@ pub fn Vector2Invert(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Invert(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9303,10 +9336,10 @@ pub fn Vector2Clamp(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2Clamp(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&min))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&max))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&min)),
+        @ptrFromInt(@intFromPtr(&max)),
     );
     return out;
 }
@@ -9319,8 +9352,8 @@ pub fn Vector2ClampValue(
 ) Vector2 {
     var out: Vector2 = undefined;
     raylib.mVector2ClampValue(
-        @as([*c]raylib.Vector2, @ptrCast(&out)),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         min,
         max,
     );
@@ -9333,16 +9366,32 @@ pub fn Vector2Equals(
     q: Vector2,
 ) i32 {
     return raylib.mVector2Equals(
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&p))),
-        @as([*c]raylib.Vector2, @ptrFromInt(@intFromPtr(&q))),
+        @ptrFromInt(@intFromPtr(&p)),
+        @ptrFromInt(@intFromPtr(&q)),
     );
+}
+
+///
+pub fn Vector2Refract(
+    v: Vector2,
+    n: Vector2,
+    r: f32,
+) Vector2 {
+    var out: Vector2 = undefined;
+    raylib.mVector2Refract(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&n)),
+        r,
+    );
+    return out;
 }
 
 ///
 pub fn Vector3Zero() Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Zero(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -9351,7 +9400,7 @@ pub fn Vector3Zero() Vector3 {
 pub fn Vector3One() Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3One(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -9363,9 +9412,9 @@ pub fn Vector3Add(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Add(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9377,8 +9426,8 @@ pub fn Vector3AddValue(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3AddValue(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         add,
     );
     return out;
@@ -9391,9 +9440,9 @@ pub fn Vector3Subtract(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Subtract(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9405,8 +9454,8 @@ pub fn Vector3SubtractValue(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3SubtractValue(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         sub,
     );
     return out;
@@ -9419,8 +9468,8 @@ pub fn Vector3Scale(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Scale(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         scalar,
     );
     return out;
@@ -9433,9 +9482,9 @@ pub fn Vector3Multiply(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Multiply(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9447,9 +9496,9 @@ pub fn Vector3CrossProduct(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3CrossProduct(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9460,8 +9509,8 @@ pub fn Vector3Perpendicular(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Perpendicular(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9471,7 +9520,7 @@ pub fn Vector3Length(
     v: Vector3,
 ) f32 {
     return raylib.mVector3Length(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrFromInt(@intFromPtr(&v)),
     );
 }
 
@@ -9480,7 +9529,7 @@ pub fn Vector3LengthSqr(
     v: Vector3,
 ) f32 {
     return raylib.mVector3LengthSqr(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrFromInt(@intFromPtr(&v)),
     );
 }
 
@@ -9490,8 +9539,8 @@ pub fn Vector3DotProduct(
     v2: Vector3,
 ) f32 {
     return raylib.mVector3DotProduct(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9501,8 +9550,8 @@ pub fn Vector3Distance(
     v2: Vector3,
 ) f32 {
     return raylib.mVector3Distance(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9512,8 +9561,8 @@ pub fn Vector3DistanceSqr(
     v2: Vector3,
 ) f32 {
     return raylib.mVector3DistanceSqr(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9523,8 +9572,8 @@ pub fn Vector3Angle(
     v2: Vector3,
 ) f32 {
     return raylib.mVector3Angle(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
 }
 
@@ -9534,8 +9583,8 @@ pub fn Vector3Negate(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Negate(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9547,9 +9596,9 @@ pub fn Vector3Divide(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Divide(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9560,8 +9609,8 @@ pub fn Vector3Normalize(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Normalize(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9573,9 +9622,9 @@ pub fn Vector3Project(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Project(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9587,9 +9636,9 @@ pub fn Vector3Reject(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Reject(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9600,8 +9649,8 @@ pub fn Vector3OrthoNormalize(
     v2: ?[*]Vector3,
 ) void {
     raylib.mVector3OrthoNormalize(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(v2))),
+        @ptrFromInt(@intFromPtr(v1)),
+        @ptrFromInt(@intFromPtr(v2)),
     );
 }
 
@@ -9612,9 +9661,9 @@ pub fn Vector3Transform(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Transform(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
     return out;
 }
@@ -9626,9 +9675,9 @@ pub fn Vector3RotateByQuaternion(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3RotateByQuaternion(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&q)),
     );
     return out;
 }
@@ -9641,10 +9690,26 @@ pub fn Vector3RotateByAxisAngle(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3RotateByAxisAngle(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&axis))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&axis)),
         angle,
+    );
+    return out;
+}
+
+///
+pub fn Vector3MoveTowards(
+    v: Vector3,
+    target: Vector3,
+    maxDistance: f32,
+) Vector3 {
+    var out: Vector3 = undefined;
+    raylib.mVector3MoveTowards(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&target)),
+        maxDistance,
     );
     return out;
 }
@@ -9657,9 +9722,9 @@ pub fn Vector3Lerp(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Lerp(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
         amount,
     );
     return out;
@@ -9672,9 +9737,9 @@ pub fn Vector3Reflect(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Reflect(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&normal))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&normal)),
     );
     return out;
 }
@@ -9686,9 +9751,9 @@ pub fn Vector3Min(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Min(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9700,9 +9765,9 @@ pub fn Vector3Max(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Max(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v1))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
     );
     return out;
 }
@@ -9716,11 +9781,11 @@ pub fn Vector3Barycenter(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Barycenter(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&a))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&b))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&c))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&p)),
+        @ptrFromInt(@intFromPtr(&a)),
+        @ptrFromInt(@intFromPtr(&b)),
+        @ptrFromInt(@intFromPtr(&c)),
     );
     return out;
 }
@@ -9733,10 +9798,10 @@ pub fn Vector3Unproject(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Unproject(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&source))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&projection))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&view))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&source)),
+        @ptrFromInt(@intFromPtr(&projection)),
+        @ptrFromInt(@intFromPtr(&view)),
     );
     return out;
 }
@@ -9747,8 +9812,8 @@ pub fn Vector3ToFloatV(
 ) float3 {
     var out: float3 = undefined;
     raylib.mVector3ToFloatV(
-        @as([*c]raylib.float3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9759,8 +9824,8 @@ pub fn Vector3Invert(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Invert(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
     );
     return out;
 }
@@ -9773,10 +9838,10 @@ pub fn Vector3Clamp(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Clamp(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&min))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&max))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&min)),
+        @ptrFromInt(@intFromPtr(&max)),
     );
     return out;
 }
@@ -9789,8 +9854,8 @@ pub fn Vector3ClampValue(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3ClampValue(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
         min,
         max,
     );
@@ -9803,8 +9868,8 @@ pub fn Vector3Equals(
     q: Vector3,
 ) i32 {
     return raylib.mVector3Equals(
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&p))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&q))),
+        @ptrFromInt(@intFromPtr(&p)),
+        @ptrFromInt(@intFromPtr(&q)),
     );
 }
 
@@ -9816,12 +9881,286 @@ pub fn Vector3Refract(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mVector3Refract(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&v))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&n))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&n)),
         r,
     );
     return out;
+}
+
+///
+pub fn Vector4Zero() Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Zero(
+        @ptrCast(&out),
+    );
+    return out;
+}
+
+///
+pub fn Vector4One() Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4One(
+        @ptrCast(&out),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Add(
+    v1: Vector4,
+    v2: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Add(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4AddValue(
+    v: Vector4,
+    add: f32,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4AddValue(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        add,
+    );
+    return out;
+}
+
+///
+pub fn Vector4Subtract(
+    v1: Vector4,
+    v2: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Subtract(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4SubtractValue(
+    v: Vector4,
+    add: f32,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4SubtractValue(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        add,
+    );
+    return out;
+}
+
+///
+pub fn Vector4Length(
+    v: Vector4,
+) f32 {
+    return raylib.mVector4Length(
+        @ptrFromInt(@intFromPtr(&v)),
+    );
+}
+
+///
+pub fn Vector4LengthSqr(
+    v: Vector4,
+) f32 {
+    return raylib.mVector4LengthSqr(
+        @ptrFromInt(@intFromPtr(&v)),
+    );
+}
+
+///
+pub fn Vector4DotProduct(
+    v1: Vector4,
+    v2: Vector4,
+) f32 {
+    return raylib.mVector4DotProduct(
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+}
+
+///
+pub fn Vector4Distance(
+    v1: Vector4,
+    v2: Vector4,
+) f32 {
+    return raylib.mVector4Distance(
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+}
+
+///
+pub fn Vector4DistanceSqr(
+    v1: Vector4,
+    v2: Vector4,
+) f32 {
+    return raylib.mVector4DistanceSqr(
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+}
+
+///
+pub fn Vector4Scale(
+    v: Vector4,
+    scale: f32,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Scale(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        scale,
+    );
+    return out;
+}
+
+///
+pub fn Vector4Multiply(
+    v1: Vector4,
+    v2: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Multiply(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Negate(
+    v: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Negate(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Divide(
+    v1: Vector4,
+    v2: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Divide(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Normalize(
+    v: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Normalize(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Min(
+    v1: Vector4,
+    v2: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Min(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Max(
+    v1: Vector4,
+    v2: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Max(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Lerp(
+    v1: Vector4,
+    v2: Vector4,
+    amount: f32,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Lerp(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v1)),
+        @ptrFromInt(@intFromPtr(&v2)),
+        amount,
+    );
+    return out;
+}
+
+///
+pub fn Vector4MoveTowards(
+    v: Vector4,
+    target: Vector4,
+    maxDistance: f32,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4MoveTowards(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+        @ptrFromInt(@intFromPtr(&target)),
+        maxDistance,
+    );
+    return out;
+}
+
+///
+pub fn Vector4Invert(
+    v: Vector4,
+) Vector4 {
+    var out: Vector4 = undefined;
+    raylib.mVector4Invert(
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&v)),
+    );
+    return out;
+}
+
+///
+pub fn Vector4Equals(
+    p: Vector4,
+    q: Vector4,
+) i32 {
+    return raylib.mVector4Equals(
+        @ptrFromInt(@intFromPtr(&p)),
+        @ptrFromInt(@intFromPtr(&q)),
+    );
 }
 
 ///
@@ -9829,7 +10168,7 @@ pub fn MatrixDeterminant(
     mat: Matrix,
 ) f32 {
     return raylib.mMatrixDeterminant(
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
 }
 
@@ -9838,7 +10177,7 @@ pub fn MatrixTrace(
     mat: Matrix,
 ) f32 {
     return raylib.mMatrixTrace(
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
 }
 
@@ -9848,8 +10187,8 @@ pub fn MatrixTranspose(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixTranspose(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
     return out;
 }
@@ -9860,8 +10199,8 @@ pub fn MatrixInvert(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixInvert(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
     return out;
 }
@@ -9870,7 +10209,7 @@ pub fn MatrixInvert(
 pub fn MatrixIdentity() Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixIdentity(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -9882,9 +10221,9 @@ pub fn MatrixAdd(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixAdd(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&left))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&right))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&left)),
+        @ptrFromInt(@intFromPtr(&right)),
     );
     return out;
 }
@@ -9896,9 +10235,9 @@ pub fn MatrixSubtract(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixSubtract(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&left))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&right))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&left)),
+        @ptrFromInt(@intFromPtr(&right)),
     );
     return out;
 }
@@ -9910,9 +10249,9 @@ pub fn MatrixMultiply(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixMultiply(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&left))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&right))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&left)),
+        @ptrFromInt(@intFromPtr(&right)),
     );
     return out;
 }
@@ -9925,7 +10264,7 @@ pub fn MatrixTranslate(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixTranslate(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         x,
         y,
         z,
@@ -9940,8 +10279,8 @@ pub fn MatrixRotate(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixRotate(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&axis))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&axis)),
         angle,
     );
     return out;
@@ -9953,7 +10292,7 @@ pub fn MatrixRotateX(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixRotateX(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         angle,
     );
     return out;
@@ -9965,7 +10304,7 @@ pub fn MatrixRotateY(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixRotateY(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         angle,
     );
     return out;
@@ -9977,7 +10316,7 @@ pub fn MatrixRotateZ(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixRotateZ(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         angle,
     );
     return out;
@@ -9989,8 +10328,8 @@ pub fn MatrixRotateXYZ(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixRotateXYZ(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&angle))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&angle)),
     );
     return out;
 }
@@ -10001,8 +10340,8 @@ pub fn MatrixRotateZYX(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixRotateZYX(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&angle))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&angle)),
     );
     return out;
 }
@@ -10015,7 +10354,7 @@ pub fn MatrixScale(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixScale(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         x,
         y,
         z,
@@ -10034,7 +10373,7 @@ pub fn MatrixFrustum(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixFrustum(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         left,
         right,
         bottom,
@@ -10054,7 +10393,7 @@ pub fn MatrixPerspective(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixPerspective(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         fovY,
         aspect,
         nearPlane,
@@ -10074,7 +10413,7 @@ pub fn MatrixOrtho(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixOrtho(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
+        @ptrCast(&out),
         left,
         right,
         bottom,
@@ -10093,10 +10432,10 @@ pub fn MatrixLookAt(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mMatrixLookAt(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&eye))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&target))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&up))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&eye)),
+        @ptrFromInt(@intFromPtr(&target)),
+        @ptrFromInt(@intFromPtr(&up)),
     );
     return out;
 }
@@ -10107,8 +10446,8 @@ pub fn MatrixToFloatV(
 ) float16 {
     var out: float16 = undefined;
     raylib.mMatrixToFloatV(
-        @as([*c]raylib.float16, @ptrCast(&out)),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
     return out;
 }
@@ -10120,9 +10459,9 @@ pub fn QuaternionAdd(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionAdd(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q1))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q1)),
+        @ptrFromInt(@intFromPtr(&q2)),
     );
     return out;
 }
@@ -10134,8 +10473,8 @@ pub fn QuaternionAddValue(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionAddValue(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
         add,
     );
     return out;
@@ -10148,9 +10487,9 @@ pub fn QuaternionSubtract(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionSubtract(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q1))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q1)),
+        @ptrFromInt(@intFromPtr(&q2)),
     );
     return out;
 }
@@ -10162,8 +10501,8 @@ pub fn QuaternionSubtractValue(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionSubtractValue(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
         sub,
     );
     return out;
@@ -10173,7 +10512,7 @@ pub fn QuaternionSubtractValue(
 pub fn QuaternionIdentity() Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionIdentity(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
+        @ptrCast(&out),
     );
     return out;
 }
@@ -10183,7 +10522,7 @@ pub fn QuaternionLength(
     q: Vector4,
 ) f32 {
     return raylib.mQuaternionLength(
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrFromInt(@intFromPtr(&q)),
     );
 }
 
@@ -10193,8 +10532,8 @@ pub fn QuaternionNormalize(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionNormalize(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
     );
     return out;
 }
@@ -10205,8 +10544,8 @@ pub fn QuaternionInvert(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionInvert(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
     );
     return out;
 }
@@ -10218,9 +10557,9 @@ pub fn QuaternionMultiply(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionMultiply(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q1))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q1)),
+        @ptrFromInt(@intFromPtr(&q2)),
     );
     return out;
 }
@@ -10232,8 +10571,8 @@ pub fn QuaternionScale(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionScale(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
         mul,
     );
     return out;
@@ -10246,9 +10585,9 @@ pub fn QuaternionDivide(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionDivide(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q1))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q1)),
+        @ptrFromInt(@intFromPtr(&q2)),
     );
     return out;
 }
@@ -10261,9 +10600,9 @@ pub fn QuaternionLerp(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionLerp(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q1))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q1)),
+        @ptrFromInt(@intFromPtr(&q2)),
         amount,
     );
     return out;
@@ -10277,9 +10616,9 @@ pub fn QuaternionNlerp(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionNlerp(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q1))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q1)),
+        @ptrFromInt(@intFromPtr(&q2)),
         amount,
     );
     return out;
@@ -10293,9 +10632,9 @@ pub fn QuaternionSlerp(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionSlerp(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q1))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q2))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q1)),
+        @ptrFromInt(@intFromPtr(&q2)),
         amount,
     );
     return out;
@@ -10308,9 +10647,9 @@ pub fn QuaternionFromVector3ToVector3(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionFromVector3ToVector3(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&from))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&to))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&from)),
+        @ptrFromInt(@intFromPtr(&to)),
     );
     return out;
 }
@@ -10321,8 +10660,8 @@ pub fn QuaternionFromMatrix(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionFromMatrix(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
     return out;
 }
@@ -10333,8 +10672,8 @@ pub fn QuaternionToMatrix(
 ) Matrix {
     var out: Matrix = undefined;
     raylib.mQuaternionToMatrix(
-        @as([*c]raylib.Matrix, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
     );
     return out;
 }
@@ -10346,8 +10685,8 @@ pub fn QuaternionFromAxisAngle(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionFromAxisAngle(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(&axis))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&axis)),
         angle,
     );
     return out;
@@ -10360,9 +10699,9 @@ pub fn QuaternionToAxisAngle(
     outAngle: ?[*]f32,
 ) void {
     raylib.mQuaternionToAxisAngle(
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
-        @as([*c]raylib.Vector3, @ptrFromInt(@intFromPtr(outAxis))),
-        @as([*c]f32, @ptrCast(outAngle)),
+        @ptrFromInt(@intFromPtr(&q)),
+        @ptrFromInt(@intFromPtr(outAxis)),
+        @ptrCast(outAngle),
     );
 }
 
@@ -10374,7 +10713,7 @@ pub fn QuaternionFromEuler(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionFromEuler(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
+        @ptrCast(&out),
         pitch,
         yaw,
         roll,
@@ -10388,8 +10727,8 @@ pub fn QuaternionToEuler(
 ) Vector3 {
     var out: Vector3 = undefined;
     raylib.mQuaternionToEuler(
-        @as([*c]raylib.Vector3, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
     );
     return out;
 }
@@ -10401,9 +10740,9 @@ pub fn QuaternionTransform(
 ) Vector4 {
     var out: Vector4 = undefined;
     raylib.mQuaternionTransform(
-        @as([*c]raylib.Vector4, @ptrCast(&out)),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
-        @as([*c]raylib.Matrix, @ptrFromInt(@intFromPtr(&mat))),
+        @ptrCast(&out),
+        @ptrFromInt(@intFromPtr(&q)),
+        @ptrFromInt(@intFromPtr(&mat)),
     );
     return out;
 }
@@ -10414,8 +10753,8 @@ pub fn QuaternionEquals(
     q: Vector4,
 ) i32 {
     return raylib.mQuaternionEquals(
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&p))),
-        @as([*c]raylib.Vector4, @ptrFromInt(@intFromPtr(&q))),
+        @ptrFromInt(@intFromPtr(&p)),
+        @ptrFromInt(@intFromPtr(&q)),
     );
 }
 
