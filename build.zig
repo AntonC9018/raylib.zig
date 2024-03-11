@@ -1,12 +1,6 @@
 const std = @import("std");
 const generate = @import("generate.zig");
 
-const srcdir = struct {
-    fn f() []const u8 {
-        return std.fs.path.dirname(@src().file).?;
-    }
-}.f();
-
 pub fn build(b: *std.Build) !void {
     const raylibSrc = "raylib/src/";
 
@@ -94,10 +88,10 @@ const raylib_build = @import("raylib/src/build.zig");
 
 fn linkThisLibrary(b: *std.Build, target: std.Target.Query, optimize: std.builtin.Mode) *std.Build.Step.Compile {
     const lib = b.addStaticLibrary(.{ .name = "raylib.zig", .target = b.resolveTargetQuery(target), .optimize = optimize });
+    lib.addIncludePath(.{ .cwd_relative = cwd });
     lib.addIncludePath(.{ .cwd_relative = dir_raylib });
-    lib.addIncludePath(.{ .cwd_relative = "" });
     lib.linkLibC();
-    lib.addCSourceFile(.{ .file = .{ .cwd_relative = cwd ++ sep ++ "marshal.c" }, .flags = &.{} });
+    lib.addCSourceFile(.{ .file = .{ .cwd_relative = cwd ++ sep ++ "marshal" ++ sep ++ "marshal.c" }, .flags = &.{} });
     std.log.info("include '{s}' to {s}", .{ dir_raylib, lib.name });
     std.log.info("include '{s}' to {s}", .{ cwd, lib.name });
     return lib;
@@ -108,8 +102,8 @@ pub fn addTo(b: *std.Build, exe: *std.Build.Step.Compile, target: std.Target.Que
     exe.root_module.addAnonymousImport("raylib", .{ .root_source_file = .{ .cwd_relative = cwd ++ sep ++ "raylib.zig" } });
     std.log.info("include '{s}' to {s}", .{ dir_raylib, exe.name });
     std.log.info("include '{s}' to {s}", .{ cwd, exe.name });
-    exe.addIncludePath(.{ .cwd_relative = dir_raylib });
     exe.addIncludePath(.{ .cwd_relative = cwd });
+    exe.addIncludePath(.{ .cwd_relative = dir_raylib });
     const lib = linkThisLibrary(b, target, optimize);
     const lib_raylib = raylib_build.addRaylib(b, b.resolveTargetQuery(target), optimize, raylibOptions) catch |err| std.debug.panic("addRaylib: {any}", .{err});
     exe.linkLibrary(lib_raylib);
