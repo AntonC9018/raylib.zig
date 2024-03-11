@@ -9,7 +9,7 @@ const raylib = @cImport({
     @cDefine("RAYMATH_IMPLEMENTATION", {});
     @cInclude("raymath.h");
 
-    @cInclude("marshal.h");
+    @cInclude("/home/anton/coding/thesis-png/raylib/marshal.h");
 });
 
 //--- structs -------------------------------------------------------------------------------------
